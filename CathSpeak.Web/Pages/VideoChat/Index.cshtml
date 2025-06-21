@@ -1,0 +1,345 @@
+﻿@page
+@model CathSpeak.Web.Pages.VideoChat.IndexModel
+@{
+    ViewData["Title"] = "Video Chat";
+}
+
+<div class="videochat-container">
+    <div class="page-header">
+        <h1><i class="fas fa-video"></i> Video Chat Center</h1>
+        <p>Connect with friends and join learning rooms for interactive language practice</p>
+    </div>
+
+    <!-- Active Sessions -->
+    @if (Model.ActiveSessions.Any())
+    {
+        <div class="section">
+            <h2><i class="fas fa-play-circle"></i> Active Sessions</h2>
+            <div class="sessions-grid">
+                @foreach (var session in Model.ActiveSessions)
+                {
+                    <div class="session-card active">
+                        <div class="session-header">
+                            <h3>
+                                @if (session.SessionType == 1)
+                                {
+                                    <i class="fas fa-user-friends"></i>
+                                    <span>One-on-One Chat</span>
+                                }
+                                else
+                                {
+                                    <i class="fas fa-users"></i>
+                                    <span>@session.RoomName</span>
+                                }
+                            </h3>
+                            <span class="session-status live">LIVE</span>
+                        </div>
+                        <div class="session-info">
+                            <p><i class="fas fa-clock"></i> Started @session.StartTime.ToString("HH:mm")</p>
+                            <p><i class="fas fa-users"></i> @session.Participants.Count participant(s)</p>
+                        </div>
+                        <div class="session-actions">
+                            <a href="/VideoChat/Session/@session.SessionId" class="btn btn-success">
+                                <i class="fas fa-sign-in-alt"></i> Rejoin Session
+                            </a>
+                        </div>
+                    </div>
+                }
+            </div>
+        </div>
+    }
+
+    <div class="chat-options">
+        <!-- One-on-One Chat -->
+        <div class="option-section">
+            <h2><i class="fas fa-user-friends"></i> Start One-on-One Chat</h2>
+            <p>Practice with a friend in a private video conversation</p>
+
+            @if (Model.Friends.Any())
+            {
+                <div class="friends-list">
+                    @foreach (var friend in Model.Friends.Take(6))
+                    {
+                        <div class="friend-option">
+                            <img src="@(friend.AvatarImageUrl ?? "/images/default-avatar.png")"
+                                 alt="@friend.Username" class="avatar" />
+                            <div class="friend-info">
+                                <h4>@friend.Username</h4>
+                                <p>@friend.Level Level</p>
+                            </div>
+                            <form method="post" asp-page-handler="StartOneOnOne">
+                                <input type="hidden" name="friendId" value="@friend.AccountId" />
+                                <button type="submit" class="btn btn-primary">
+                                    <i class="fas fa-video"></i> Start Chat
+                                </button>
+                            </form>
+                        </div>
+                    }
+                </div>
+
+                @if (Model.Friends.Count > 6)
+                {
+                    <a href="/Friends" class="view-all">View all friends (@Model.Friends.Count)</a>
+                }
+            }
+            else
+            {
+                <div class="empty-state-small">
+                    <p>No friends available for video chat.</p>
+                    <a href="/Friends/Search" class="btn btn-outline">Find Friends</a>
+                </div>
+            }
+        </div>
+
+        <!-- Room Chat -->
+        <div class="option-section">
+            <h2><i class="fas fa-door-open"></i> Join Learning Rooms</h2>
+            <p>Join or create group sessions for collaborative learning</p>
+
+            @if (Model.AvailableRooms.Any())
+            {
+                <div class="rooms-list">
+                    @foreach (var room in Model.AvailableRooms.Take(4))
+                    {
+                        <div class="room-option">
+                            <div class="room-info">
+                                <h4>@room.Name</h4>
+                                <p>@room.Description</p>
+                                <small>Created by @room.CreatorName</small>
+                            </div>
+                            <form method="post" asp-page-handler="StartRoomSession">
+                                <input type="hidden" name="roomId" value="@room.RoomId" />
+                                <button type="submit" class="btn btn-success">
+                                    <i class="fas fa-video"></i> Start Session
+                                </button>
+                            </form>
+                        </div>
+                    }
+                </div>
+
+                <div class="room-actions">
+                    <a href="/Rooms" class="btn btn-outline">View All Rooms</a>
+                    <a href="/Rooms/Create" class="btn btn-primary">Create New Room</a>
+                </div>
+            }
+            else
+            {
+                <div class="empty-state-small">
+                    <p>No rooms available. Create your first room!</p>
+                    <a href="/Rooms/Create" class="btn btn-primary">Create Room</a>
+                </div>
+            }
+        </div>
+    </div>
+</div>
+
+<style>
+    .videochat-container {
+        padding: 2rem;
+        max-width: 1200px;
+        margin: 0 auto;
+    }
+
+    .page-header {
+        text-align: center;
+        margin-bottom: 3rem;
+    }
+
+        .page-header h1 {
+            color: #333;
+            margin-bottom: 0.5rem;
+        }
+
+        .page-header p {
+            color: #666;
+            font-size: 1.1rem;
+        }
+
+    .section {
+        margin-bottom: 3rem;
+    }
+
+        .section h2 {
+            color: #333;
+            margin-bottom: 1.5rem;
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+        }
+
+    .sessions-grid {
+        display: grid;
+        grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+        gap: 1.5rem;
+        margin-bottom: 2rem;
+    }
+
+    .session-card {
+        background: white;
+        border: 1px solid #e1e5e9;
+        border-radius: 10px;
+        padding: 1.5rem;
+        box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+    }
+
+        .session-card.active {
+            border-left: 4px solid #28a745;
+        }
+
+    .session-header {
+        display: flex;
+        justify-content: space-between;
+        align-items: flex-start;
+        margin-bottom: 1rem;
+    }
+
+        .session-header h3 {
+            margin: 0;
+            color: #333;
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+        }
+
+    .session-status.live {
+        background: #28a745;
+        color: white;
+        padding: 0.25rem 0.5rem;
+        border-radius: 12px;
+        font-size: 0.8rem;
+        font-weight: bold;
+    }
+
+    .session-info p {
+        margin: 0.25rem 0;
+        color: #666;
+        font-size: 0.9rem;
+        display: flex;
+        align-items: center;
+        gap: 0.5rem;
+    }
+
+    .chat-options {
+        display: grid;
+        grid-template-columns: 1fr 1fr;
+        gap: 2rem;
+    }
+
+    @@media (max-width: 768px) {
+        .chat-options
+
+    {
+        grid-template-columns: 1fr;
+    }
+
+    }
+
+    .option-section {
+        background: white;
+        border: 1px solid #e1e5e9;
+        border-radius: 10px;
+        padding: 2rem;
+        box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+    }
+
+        .option-section h2 {
+            margin-bottom: 0.5rem;
+        }
+
+        .option-section > p {
+            color: #666;
+            margin-bottom: 1.5rem;
+        }
+
+    .friends-list, .rooms-list {
+        space-y: 1rem;
+    }
+
+    .friend-option, .room-option {
+        display: flex;
+        align-items: center;
+        padding: 1rem;
+        border: 1px solid #e1e5e9;
+        border-radius: 8px;
+        margin-bottom: 1rem;
+    }
+
+        .friend-option .avatar {
+            width: 50px;
+            height: 50px;
+            border-radius: 50%;
+            object-fit: cover;
+            margin-right: 1rem;
+        }
+
+    .friend-info, .room-info {
+        flex: 1;
+    }
+
+        .friend-info h4, .room-info h4 {
+            margin: 0 0 0.25rem 0;
+            color: #333;
+        }
+
+        .friend-info p, .room-info p {
+            margin: 0;
+            color: #666;
+            font-size: 0.9rem;
+        }
+
+        .room-info small {
+            color: #888;
+            font-size: 0.8rem;
+        }
+
+    .room-actions {
+        display: flex;
+        gap: 1rem;
+        margin-top: 1.5rem;
+        justify-content: center;
+    }
+
+    .empty-state-small {
+        text-align: center;
+        padding: 2rem;
+        color: #666;
+    }
+
+    .view-all {
+        display: block;
+        text-align: center;
+        margin-top: 1rem;
+        color: #667eea;
+        text-decoration: none;
+        font-size: 0.9rem;
+    }
+
+    .btn {
+        padding: 0.5rem 1rem;
+        border: none;
+        border-radius: 5px;
+        cursor: pointer;
+        text-decoration: none;
+        display: inline-flex;
+        align-items: center;
+        gap: 0.5rem;
+        font-size: 0.875rem;
+        white-space: nowrap;
+    }
+
+    .btn-primary {
+        background-color: #667eea;
+        color: white;
+    }
+
+    .btn-success {
+        background-color: #28a745;
+        color: white;
+    }
+
+    .btn-outline {
+        background-color: transparent;
+        border: 1px solid #ddd;
+        color: #666;
+    }
+</style>

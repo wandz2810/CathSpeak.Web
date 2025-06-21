@@ -1,0 +1,97 @@
+﻿@page
+@model CathSpeak.Web.Pages.Auth.LogoutModel
+@{
+    ViewData["Title"] = "Logging Out";
+    Layout = "_LayoutAuth";
+}
+
+<div class="logout-container">
+    <div class="logout-content">
+        <div class="logout-icon">
+            <i class="fas fa-sign-out-alt"></i>
+        </div>
+        <h1>Logging Out...</h1>
+        <p>You are being logged out of CathSpeak. Please wait a moment.</p>
+
+        <div class="logout-spinner">
+            <div class="spinner"></div>
+        </div>
+
+        <p class="logout-message">Thank you for using CathSpeak. See you soon!</p>
+    </div>
+</div>
+
+<style>
+    .logout-container {
+        min-height: 100vh;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+    }
+
+    .logout-content {
+        background: white;
+        padding: 3rem;
+        border-radius: 15px;
+        box-shadow: 0 15px 35px rgba(0, 0, 0, 0.1);
+        text-align: center;
+        max-width: 400px;
+        width: 100%;
+    }
+
+    .logout-icon {
+        font-size: 4rem;
+        color: #667eea;
+        margin-bottom: 1.5rem;
+    }
+
+    .logout-content h1 {
+        color: #333;
+        margin-bottom: 1rem;
+        font-size: 1.8rem;
+    }
+
+    .logout-content p {
+        color: #666;
+        margin-bottom: 2rem;
+        line-height: 1.5;
+    }
+
+    .logout-spinner {
+        margin: 2rem 0;
+    }
+
+    .spinner {
+        width: 40px;
+        height: 40px;
+        border: 4px solid #f3f3f3;
+        border-top: 4px solid #667eea;
+        border-radius: 50%;
+        animation: spin 1s linear infinite;
+        margin: 0 auto;
+    }
+
+    @@keyframes spin {
+        0% {
+            transform: rotate(0deg);
+        }
+
+        100% {
+            transform: rotate(360deg);
+        }
+    }
+
+    .logout-message {
+        color: #667eea;
+        font-weight: 500;
+        font-style: italic;
+    }
+</style>
+
+<script>
+    // Auto-redirect after a brief delay to show the logout message
+    setTimeout(function() {
+        window.location.href = '/Auth/Login';
+    }, 2000);
+</script>

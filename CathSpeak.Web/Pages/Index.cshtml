@@ -1,0 +1,269 @@
+﻿@page
+@model IndexModel
+@{
+    ViewData["Title"] = "Welcome to CathSpeak";
+    Layout = "_LayoutPublic";
+}
+
+<div class="landing-container">
+    <!-- Hero Section -->
+    <section class="hero-section">
+        <div class="container">
+            <div class="row align-items-center">
+                <div class="col-lg-6">
+                    <div class="hero-content">
+                        <h1 class="hero-title">
+                            Master Languages Through
+                            <span class="text-primary">Real Conversations</span>
+                        </h1>
+                        <p class="hero-description">
+                            Connect with native speakers and language learners worldwide. Practice through
+                            1-on-1 video chats, join group learning sessions, and build lasting friendships.
+                        </p>
+                        <div class="hero-buttons">
+                            <a href="/Auth/Register" class="btn btn-primary btn-lg">
+                                <i class="fas fa-rocket"></i> Start Learning Free
+                            </a>
+                            <a href="/Auth/Login" class="btn btn-outline-primary btn-lg">
+                                <i class="fas fa-sign-in-alt"></i> Sign In
+                            </a>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-lg-6">
+                    <div class="hero-image">
+                        <img src="/images/hero-video-chat.svg" alt="Video Chat Learning" class="img-fluid" />
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Features Section -->
+    <section class="features-section">
+        <div class="container">
+            <div class="text-center mb-5">
+                <h2>Why Choose CathSpeak?</h2>
+                <p>Everything you need to master a new language through real conversation</p>
+            </div>
+            <div class="row">
+                <div class="col-md-4 mb-4">
+                    <div class="feature-card">
+                        <div class="feature-icon">
+                            <i class="fas fa-video"></i>
+                        </div>
+                        <h3>1-on-1 Video Chat</h3>
+                        <p>Practice with native speakers in private video conversations. Perfect for focused learning and building confidence.</p>
+                    </div>
+                </div>
+                <div class="col-md-4 mb-4">
+                    <div class="feature-card">
+                        <div class="feature-icon">
+                            <i class="fas fa-users"></i>
+                        </div>
+                        <h3>Group Learning Rooms</h3>
+                        <p>Join themed learning rooms, participate in group discussions, and learn from multiple perspectives.</p>
+                    </div>
+                </div>
+                <div class="col-md-4 mb-4">
+                    <div class="feature-card">
+                        <div class="feature-icon">
+                            <i class="fas fa-heart"></i>
+                        </div>
+                        <h3>Build Friendships</h3>
+                        <p>Connect with learners worldwide, make friends, and create a supportive learning community.</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- How It Works Section -->
+    <section class="how-it-works">
+        <div class="container">
+            <div class="text-center mb-5">
+                <h2>How It Works</h2>
+                <p>Get started in just a few simple steps</p>
+            </div>
+            <div class="row">
+                <div class="col-md-3 text-center mb-4">
+                    <div class="step-number">1</div>
+                    <h4>Create Account</h4>
+                    <p>Sign up for free and complete your language profile</p>
+                </div>
+                <div class="col-md-3 text-center mb-4">
+                    <div class="step-number">2</div>
+                    <h4>Find Partners</h4>
+                    <p>Search for language partners or join learning rooms</p>
+                </div>
+                <div class="col-md-3 text-center mb-4">
+                    <div class="step-number">3</div>
+                    <h4>Start Chatting</h4>
+                    <p>Begin video conversations and practice your target language</p>
+                </div>
+                <div class="col-md-3 text-center mb-4">
+                    <div class="step-number">4</div>
+                    <h4>Track Progress</h4>
+                    <p>Monitor your improvement and build lasting connections</p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- CTA Section -->
+    <section class="cta-section">
+        <div class="container text-center">
+            <h2>Ready to Start Your Language Journey?</h2>
+            <p>Join thousands of learners who are already mastering languages through conversation</p>
+            <a href="/Auth/Register" class="btn btn-primary btn-lg">
+                <i class="fas fa-rocket"></i> Get Started Free
+            </a>
+        </div>
+    </section>
+</div>
+
+<style>
+    .landing-container {
+        overflow-x: hidden;
+    }
+
+    .hero-section {
+        background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+        color: white;
+        padding: 100px 0;
+        min-height: 100vh;
+        display: flex;
+        align-items: center;
+    }
+
+    .hero-title {
+        font-size: 3.5rem;
+        font-weight: 700;
+        line-height: 1.2;
+        margin-bottom: 1.5rem;
+    }
+
+    .hero-description {
+        font-size: 1.2rem;
+        margin-bottom: 2rem;
+        opacity: 0.9;
+    }
+
+    .hero-buttons {
+        display: flex;
+        gap: 1rem;
+        flex-wrap: wrap;
+    }
+
+        .hero-buttons .btn {
+            padding: 1rem 2rem;
+            font-weight: 600;
+        }
+
+    .btn-outline-primary {
+        border: 2px solid white;
+        color: white;
+    }
+
+        .btn-outline-primary:hover {
+            background: white;
+            color: #667eea;
+        }
+
+    .hero-image img {
+        max-width: 100%;
+        height: auto;
+    }
+
+    .features-section {
+        padding: 100px 0;
+        background: #f8f9fa;
+    }
+
+    .feature-card {
+        text-align: center;
+        padding: 2rem;
+        background: white;
+        border-radius: 15px;
+        box-shadow: 0 10px 30px rgba(0, 0, 0, 0.1);
+        height: 100%;
+        transition: transform 0.3s ease;
+    }
+
+        .feature-card:hover {
+            transform: translateY(-10px);
+        }
+
+    .feature-icon {
+        width: 80px;
+        height: 80px;
+        background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+        border-radius: 50%;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        margin: 0 auto 1.5rem;
+    }
+
+        .feature-icon i {
+            font-size: 2rem;
+            color: white;
+        }
+
+    .feature-card h3 {
+        color: #333;
+        margin-bottom: 1rem;
+    }
+
+    .how-it-works {
+        padding: 100px 0;
+    }
+
+    .step-number {
+        width: 60px;
+        height: 60px;
+        background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+        border-radius: 50%;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        margin: 0 auto 1rem;
+        color: white;
+        font-size: 1.5rem;
+        font-weight: bold;
+    }
+
+    .cta-section {
+        background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+        color: white;
+        padding: 80px 0;
+    }
+
+        .cta-section h2 {
+            margin-bottom: 1rem;
+        }
+
+        .cta-section .btn {
+            margin-top: 1rem;
+            padding: 1rem 2rem;
+            font-weight: 600;
+        }
+
+    @@media (max-width: 768px) {
+        .hero-title
+
+    {
+        font-size: 2.5rem;
+    }
+
+    .hero-buttons {
+        justify-content: center;
+    }
+
+        .hero-buttons .btn {
+            width: 100%;
+            max-width: 250px;
+        }
+
+    }
+</style>

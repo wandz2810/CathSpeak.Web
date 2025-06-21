@@ -1,0 +1,219 @@
+﻿@page
+@model CathSpeak.Web.Pages.Auth.RegisterModel
+@{
+    ViewData["Title"] = "Register";
+    Layout = "_LayoutAuth";
+}
+
+<div class="auth-container">
+    <div class="auth-card">
+        <div class="auth-header">
+            <h1>Join CathSpeak</h1>
+            <p>Create your account and start learning languages</p>
+        </div>
+
+        @if (!string.IsNullOrEmpty(Model.ErrorMessage))
+        {
+            <div class="alert alert-danger">
+                @Model.ErrorMessage
+            </div>
+        }
+
+        @if (!string.IsNullOrEmpty(Model.SuccessMessage))
+        {
+            <div class="alert alert-success">
+                @Model.SuccessMessage
+            </div>
+        }
+
+        <form method="post" class="auth-form">
+            <div class="form-row">
+                <div class="form-group">
+                    <label asp-for="RegisterData.Username">Username</label>
+                    <input asp-for="RegisterData.Username" class="form-control" placeholder="Choose a username" />
+                    <span asp-validation-for="RegisterData.Username" class="text-danger"></span>
+                </div>
+
+                <div class="form-group">
+                    <label asp-for="RegisterData.Email">Email</label>
+                    <input asp-for="RegisterData.Email" class="form-control" placeholder="Enter your email" />
+                    <span asp-validation-for="RegisterData.Email" class="text-danger"></span>
+                </div>
+            </div>
+
+            <div class="form-row">
+                <div class="form-group">
+                    <label asp-for="RegisterData.Password">Password</label>
+                    <input asp-for="RegisterData.Password" class="form-control" placeholder="Create a password" />
+                    <span asp-validation-for="RegisterData.Password" class="text-danger"></span>
+                </div>
+
+                <div class="form-group">
+                    <label asp-for="RegisterData.ConfirmPassword">Confirm Password</label>
+                    <input asp-for="RegisterData.ConfirmPassword" class="form-control" placeholder="Confirm your password" />
+                    <span asp-validation-for="RegisterData.ConfirmPassword" class="text-danger"></span>
+                </div>
+            </div>
+
+            <div class="form-group">
+                <label asp-for="RegisterData.Level">Language Level</label>
+                <select asp-for="RegisterData.Level" class="form-control">
+                    <option value="Beginner">Beginner</option>
+                    <option value="Intermediate">Intermediate</option>
+                    <option value="Advanced">Advanced</option>
+                    <option value="Native">Native</option>
+                </select>
+            </div>
+
+            <div class="form-row">
+                <div class="form-group">
+                    <label asp-for="RegisterData.DateOfBirth">Date of Birth</label>
+                    <input asp-for="RegisterData.DateOfBirth" class="form-control" type="date" />
+                </div>
+
+                <div class="form-group">
+                    <label asp-for="RegisterData.Address">Address (Optional)</label>
+                    <input asp-for="RegisterData.Address" class="form-control" placeholder="Your location" />
+                </div>
+            </div>
+
+            <div class="form-group">
+                <label asp-for="RegisterData.AvatarImageUrl">Avatar URL (Optional)</label>
+                <input asp-for="RegisterData.AvatarImageUrl" class="form-control" placeholder="Profile picture URL" />
+            </div>
+
+            <button type="submit" class="btn btn-primary btn-block">Create Account</button>
+        </form>
+
+        <div class="auth-footer">
+            <p>Already have an account? <a asp-page="/Auth/Login">Sign in here</a></p>
+        </div>
+    </div>
+</div>
+
+@section Scripts {
+    @{
+        await Html.RenderPartialAsync("_ValidationScriptsPartial");
+    }
+}
+
+
+<style>
+    .auth-container {
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        min-height: 100vh;
+        padding: 2rem;
+    }
+
+    .auth-card {
+        background: white;
+        border-radius: 10px;
+        box-shadow: 0 4px 20px rgba(0, 0, 0, 0.1);
+        width: 100%;
+        max-width: 600px;
+        padding: 2rem;
+    }
+
+    .auth-header {
+        text-align: center;
+        margin-bottom: 2rem;
+    }
+
+        .auth-header h1 {
+            margin-bottom: 0.5rem;
+            color: #333;
+        }
+
+        .auth-header p {
+            color: #666;
+        }
+
+    .auth-form {
+        margin-bottom: 1.5rem;
+    }
+
+    .form-group {
+        margin-bottom: 1.5rem;
+    }
+
+    .form-control {
+        width: 100%;
+        padding: 0.75rem;
+        border: 1px solid #ddd;
+        border-radius: 6px;
+        font-size: 1rem;
+    }
+
+    .form-row {
+        display: flex;
+        gap: 1rem;
+    }
+
+        .form-row .form-group {
+            flex: 1;
+        }
+
+    .btn-primary {
+        background-color: #667eea;
+        color: white;
+        border: none;
+        padding: 0.75rem;
+        border-radius: 6px;
+        font-size: 1rem;
+        font-weight: 500;
+        cursor: pointer;
+        transition: background-color 0.2s;
+    }
+
+        .btn-primary:hover {
+            background-color: #5a6eea;
+        }
+
+    .btn-block {
+        display: block;
+        width: 100%;
+    }
+
+    .auth-footer {
+        text-align: center;
+        margin-top: 1.5rem;
+        color: #666;
+    }
+
+        .auth-footer a {
+            color: #667eea;
+            text-decoration: none;
+            font-weight: 500;
+        }
+
+    .text-danger {
+        color: #dc3545;
+        font-size: 0.875rem;
+        margin-top: 0.25rem;
+        display: block;
+    }
+
+    .alert {
+        padding: 0.75rem 1rem;
+        margin-bottom: 1.5rem;
+        border-radius: 6px;
+    }
+
+    .alert-danger {
+        color: #721c24;
+        background-color: #f8d7da;
+        border-color: #f5c6cb;
+    }
+
+    .alert-success {
+        color: #155724;
+        background-color: #d4edda;
+        border-color: #c3e6cb;
+    }
+
+    select.form-control {
+        background-color: white;
+    }
+</style>

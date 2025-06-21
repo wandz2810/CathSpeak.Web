@@ -1,0 +1,399 @@
+﻿@page
+@model CathSpeak.Web.Pages.Profile.IndexModel
+@{
+    ViewData["Title"] = "My Profile";
+}
+
+<div class="profile-container">
+    <div class="page-header">
+        <h1><i class="fas fa-user"></i> My Profile</h1>
+        <p>Manage your account information and preferences</p>
+    </div>
+
+    @if (!string.IsNullOrEmpty(Model.ErrorMessage))
+    {
+        <div class="alert alert-danger">
+            <i class="fas fa-exclamation-triangle"></i>
+            @Model.ErrorMessage
+        </div>
+    }
+
+    @if (!string.IsNullOrEmpty(Model.SuccessMessage))
+    {
+        <div class="alert alert-success">
+            <i class="fas fa-check-circle"></i>
+            @Model.SuccessMessage
+        </div>
+    }
+
+    @if (Model.Account != null)
+    {
+        <div class="profile-content">
+            <div class="profile-sidebar">
+                <div class="profile-card">
+                    <div class="profile-avatar">
+                        <img src="@(Model.Account.AvatarImageUrl ?? "/images/default-avatar.png")"
+                             alt="@Model.Account.Username" id="profileImage" />
+                        <button type="button" class="avatar-edit-btn" onclick="document.getElementById('avatarInput').click()">
+                            <i class="fas fa-camera"></i>
+                        </button>
+                    </div>
+                    <h3>@Model.Account.Username</h3>
+                    <p class="user-level">@Model.Account.Level Level</p>
+                    <p class="user-role">@Model.Account.RoleName</p>
+                    <div class="user-stats">
+                        <div class="stat">
+                            <span class="stat-value">@Model.Account.CreateDate.ToString("MMM yyyy")</span>
+                            <span class="stat-label">Member Since</span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="profile-main">
+                <form method="post" class="profile-form">
+                    <div class="form-section">
+                        <h4><i class="fas fa-user-edit"></i> Personal Information</h4>
+
+                        <div class="form-row">
+                            <div class="form-group">
+                                <label asp-for="ProfileData.Username">Username</label>
+                                <input asp-for="ProfileData.Username" class="form-control" />
+                                <span asp-validation-for="ProfileData.Username" class="text-danger"></span>
+                            </div>
+
+                            <div class="form-group">
+                                <label asp-for="ProfileData.Email">Email</label>
+                                <input asp-for="ProfileData.Email" class="form-control" type="email" />
+                                <span asp-validation-for="ProfileData.Email" class="text-danger"></span>
+                            </div>
+                        </div>
+
+                        <div class="form-group">
+                            <label asp-for="ProfileData.AvatarImageUrl">Avatar URL</label>
+                            <input asp-for="ProfileData.AvatarImageUrl" class="form-control" id="avatarInput"
+                                   onchange="previewImage(this)" />
+                        </div>
+
+                        <div class="form-row">
+                            <div class="form-group">
+                                <label asp-for="ProfileData.Level">Language Level</label>
+                                <select asp-for="ProfileData.Level" class="form-control">
+                                    <option value="Beginner">Beginner</option>
+                                    <option value="Intermediate">Intermediate</option>
+                                    <option value="Advanced">Advanced</option>
+                                    <option value="Native">Native</option>
+                                </select>
+                            </div>
+
+                            <div class="form-group">
+                                <label asp-for="ProfileData.DateOfBirth">Date of Birth</label>
+                                <input asp-for="ProfileData.DateOfBirth" class="form-control" type="date" />
+                            </div>
+                        </div>
+
+                        <div class="form-group">
+                            <label asp-for="ProfileData.Address">Location</label>
+                            <input asp-for="ProfileData.Address" class="form-control" placeholder="City, Country" />
+                        </div>
+                    </div>
+
+                    <div class="form-actions">
+                        <button type="submit" class="btn btn-primary">
+                            <i class="fas fa-save"></i> Save Changes
+                        </button>
+                        <a href="/Dashboard" class="btn btn-outline">
+                            <i class="fas fa-times"></i> Cancel
+                        </a>
+                    </div>
+                </form>
+
+                <div class="danger-zone">
+                    <h4><i class="fas fa-exclamation-triangle"></i> Danger Zone</h4>
+                    <p>These actions are irreversible. Please be careful.</p>
+                    <div class="danger-actions">
+                        <button type="button" class="btn btn-outline-warning">
+                            <i class="fas fa-key"></i> Change Password
+                        </button>
+                        <button type="button" class="btn btn-outline-danger">
+                            <i class="fas fa-user-times"></i> Delete Account
+                        </button>
+                    </div>
+                </div>
+            </div>
+        </div>
+    }
+</div>
+
+<style>
+    .profile-container {
+        padding: 2rem;
+        max-width: 1200px;
+        margin: 0 auto;
+    }
+
+    .page-header {
+        text-align: center;
+        margin-bottom: 2rem;
+    }
+
+        .page-header h1 {
+            color: #333;
+            margin-bottom: 0.5rem;
+        }
+
+        .page-header p {
+            color: #666;
+            margin: 0;
+        }
+
+    .profile-content {
+        display: grid;
+        grid-template-columns: 300px 1fr;
+        gap: 2rem;
+    }
+
+    @@media (max-width: 768px) {
+        .profile-content
+
+    {
+        grid-template-columns: 1fr;
+    }
+
+    }
+
+    .profile-card {
+        background: white;
+        border-radius: 15px;
+        padding: 2rem;
+        text-align: center;
+        box-shadow: 0 5px 20px rgba(0, 0, 0, 0.1);
+        position: sticky;
+        top: 2rem;
+    }
+
+    .profile-avatar {
+        position: relative;
+        display: inline-block;
+        margin-bottom: 1rem;
+    }
+
+        .profile-avatar img {
+            width: 120px;
+            height: 120px;
+            border-radius: 50%;
+            object-fit: cover;
+            border: 4px solid #667eea;
+        }
+
+    .avatar-edit-btn {
+        position: absolute;
+        bottom: 0;
+        right: 0;
+        width: 36px;
+        height: 36px;
+        border-radius: 50%;
+        background: #667eea;
+        color: white;
+        border: none;
+        cursor: pointer;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+    }
+
+    .profile-card h3 {
+        margin: 0 0 0.5rem 0;
+        color: #333;
+    }
+
+    .user-level {
+        color: #667eea;
+        font-weight: 600;
+        margin-bottom: 0.25rem;
+    }
+
+    .user-role {
+        color: #666;
+        font-size: 0.9rem;
+        margin-bottom: 1.5rem;
+    }
+
+    .user-stats {
+        border-top: 1px solid #e1e5e9;
+        padding-top: 1rem;
+    }
+
+    .stat {
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+    }
+
+    .stat-value {
+        font-weight: 600;
+        color: #333;
+    }
+
+    .stat-label {
+        font-size: 0.8rem;
+        color: #666;
+    }
+
+    .profile-main {
+        background: white;
+        border-radius: 15px;
+        padding: 2rem;
+        box-shadow: 0 5px 20px rgba(0, 0, 0, 0.1);
+    }
+
+    .form-section {
+        margin-bottom: 2rem;
+    }
+
+        .form-section h4 {
+            color: #333;
+            margin-bottom: 1.5rem;
+            padding-bottom: 0.5rem;
+            border-bottom: 2px solid #e1e5e9;
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+        }
+
+    .form-row {
+        display: grid;
+        grid-template-columns: 1fr 1fr;
+        gap: 1rem;
+    }
+
+    @@media (max-width: 768px) {
+        .form-row
+
+    {
+        grid-template-columns: 1fr;
+    }
+
+    }
+
+    .form-group {
+        margin-bottom: 1.5rem;
+    }
+
+        .form-group label {
+            display: block;
+            margin-bottom: 0.5rem;
+            color: #333;
+            font-weight: 500;
+        }
+
+    .form-control {
+        width: 100%;
+        padding: 0.75rem;
+        border: 1px solid #ddd;
+        border-radius: 8px;
+        font-size: 1rem;
+        transition: border-color 0.2s ease;
+    }
+
+        .form-control:focus {
+            outline: none;
+            border-color: #667eea;
+            box-shadow: 0 0 0 3px rgba(102, 126, 234, 0.1);
+        }
+
+    .form-actions {
+        display: flex;
+        gap: 1rem;
+        margin-bottom: 2rem;
+    }
+
+    .danger-zone {
+        border-top: 2px solid #dc3545;
+        padding-top: 2rem;
+    }
+
+        .danger-zone h4 {
+            color: #dc3545;
+            margin-bottom: 1rem;
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+        }
+
+        .danger-zone p {
+            color: #666;
+            margin-bottom: 1rem;
+        }
+
+    .danger-actions {
+        display: flex;
+        gap: 1rem;
+        flex-wrap: wrap;
+    }
+
+    .btn {
+        padding: 0.75rem 1.5rem;
+        border: none;
+        border-radius: 8px;
+        cursor: pointer;
+        text-decoration: none;
+        display: inline-flex;
+        align-items: center;
+        gap: 0.5rem;
+        font-weight: 500;
+        transition: all 0.2s ease;
+    }
+
+    .btn-primary {
+        background: #667eea;
+        color: white;
+    }
+
+    .btn-outline {
+        background: transparent;
+        border: 1px solid #ddd;
+        color: #666;
+    }
+
+    .btn-outline-warning {
+        background: transparent;
+        border: 1px solid #ffc107;
+        color: #ffc107;
+    }
+
+    .btn-outline-danger {
+        background: transparent;
+        border: 1px solid #dc3545;
+        color: #dc3545;
+    }
+
+    .alert {
+        padding: 1rem;
+        border-radius: 8px;
+        margin-bottom: 1rem;
+        display: flex;
+        align-items: center;
+        gap: 0.5rem;
+    }
+
+    .alert-success {
+        background: #d4edda;
+        color: #155724;
+        border: 1px solid #c3e6cb;
+    }
+
+    .alert-danger {
+        background: #f8d7da;
+        color: #721c24;
+        border: 1px solid #f5c6cb;
+    }
+</style>
+
+<script>
+    function previewImage(input) {
+        if (input.value) {
+            document.getElementById('profileImage').src = input.value;
+        }
+    }
+</script>

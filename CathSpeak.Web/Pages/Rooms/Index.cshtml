@@ -1,0 +1,183 @@
+﻿@page
+@model CathSpeak.Web.Pages.Rooms.IndexModel
+@{
+    ViewData["Title"] = "My Rooms";
+}
+
+<div class="rooms-container">
+    <div class="page-header">
+        <h1><i class="fas fa-door-open"></i> My Learning Rooms</h1>
+        <a href="/Rooms/Create" class="btn btn-primary">
+            <i class="fas fa-plus"></i> Create New Room
+        </a>
+    </div>
+
+    @if (Model.MyRooms.Any())
+    {
+        <div class="rooms-grid">
+            @foreach (var room in Model.MyRooms)
+            {
+                <div class="room-card">
+                    <div class="room-header">
+                        <h3>@room.Name</h3>
+                        <div class="room-status">
+                            @if (room.Status == 1)
+                            {
+                                <span class="status-badge active">Active</span>
+                            }
+                            else
+                            {
+                                <span class="status-badge inactive">Inactive</span>
+                            }
+                        </div>
+                    </div>
+
+                    <div class="room-body">
+                        <p class="room-description">@room.Description</p>
+                        <div class="room-meta">
+                            <p><i class="fas fa-calendar"></i> Created @room.CreateDate.ToString("MMM dd, yyyy")</p>
+                            <p><i class="fas fa-user"></i> Created by @room.CreatorName</p>
+                        </div>
+                    </div>
+
+                    <div class="room-actions">
+                        <a href="/VideoChat/Room/@room.RoomId" class="btn btn-success">
+                            <i class="fas fa-video"></i> Start Video Session
+                        </a>
+                        <a href="/Rooms/Edit/@room.RoomId" class="btn btn-secondary">
+                            <i class="fas fa-edit"></i> Edit
+                        </a>
+                        <form method="post" asp-page-handler="DeleteRoom" style="display: inline;">
+                            <input type="hidden" name="roomId" value="@room.RoomId" />
+                            <button type="submit" class="btn btn-danger"
+                                    onclick="return confirm('Are you sure you want to delete this room?')">
+                                <i class="fas fa-trash"></i> Delete
+                            </button>
+                        </form>
+                    </div>
+                </div>
+            }
+        </div>
+    }
+    else
+    {
+        <div class="empty-state">
+            <i class="fas fa-door-closed"></i>
+            <h3>No rooms created yet</h3>
+            <p>Create your first learning room to start hosting video sessions!</p>
+            <a href="/Rooms/Create" class="btn btn-primary">
+                <i class="fas fa-plus"></i> Create Your First Room
+            </a>
+        </div>
+    }
+</div>
+
+<style>
+    .rooms-container {
+        padding: 2rem;
+        max-width: 1200px;
+        margin: 0 auto;
+    }
+
+    .page-header {
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        margin-bottom: 2rem;
+        padding-bottom: 1rem;
+        border-bottom: 2px solid #e1e5e9;
+    }
+
+    .rooms-grid {
+        display: grid;
+        grid-template-columns: repeat(auto-fill, minmax(350px, 1fr));
+        gap: 1.5rem;
+    }
+
+    .room-card {
+        background: white;
+        border: 1px solid #e1e5e9;
+        border-radius: 10px;
+        box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+        transition: transform 0.2s;
+        overflow: hidden;
+    }
+
+        .room-card:hover {
+            transform: translateY(-2px);
+        }
+
+    .room-header {
+        display: flex;
+        justify-content: space-between;
+        align-items: flex-start;
+        padding: 1.5rem 1.5rem 0 1.5rem;
+    }
+
+        .room-header h3 {
+            margin: 0;
+            color: #333;
+            font-size: 1.2rem;
+        }
+
+    .status-badge {
+        padding: 0.25rem 0.5rem;
+        border-radius: 15px;
+        font-size: 0.8rem;
+        font-weight: 500;
+    }
+
+        .status-badge.active {
+            background-color: #d4edda;
+            color: #155724;
+        }
+
+        .status-badge.inactive {
+            background-color: #f8d7da;
+            color: #721c24;
+        }
+
+    .room-body {
+        padding: 1rem 1.5rem;
+    }
+
+    .room-description {
+        color: #666;
+        margin-bottom: 1rem;
+        line-height: 1.5;
+    }
+
+    .room-meta p {
+        margin: 0.25rem 0;
+        color: #888;
+        font-size: 0.9rem;
+        display: flex;
+        align-items: center;
+        gap: 0.5rem;
+    }
+
+    .room-actions {
+        padding: 1rem 1.5rem;
+        background-color: #f8f9fa;
+        display: flex;
+        gap: 0.5rem;
+        flex-wrap: wrap;
+    }
+
+    .empty-state {
+        text-align: center;
+        padding: 4rem 2rem;
+        color: #666;
+    }
+
+        .empty-state i {
+            font-size: 5rem;
+            color: #ddd;
+            margin-bottom: 1rem;
+        }
+
+        .empty-state h3 {
+            margin-bottom: 0.5rem;
+            color: #333;
+        }
+</style>

@@ -1,0 +1,798 @@
+﻿@page "/VideoChat/Session/{sessionId:int}"
+@model CathSpeak.Web.Pages.VideoChat.SessionModel
+@{
+    ViewData["Title"] = "Video Chat Session";
+}
+
+@if (!string.IsNullOrEmpty(Model.ErrorMessage))
+{
+    <div class="alert alert-danger">
+        @Model.ErrorMessage
+        <a href="/VideoChat" class="btn btn-outline">Back to Video Chat</a>
+    </div>
+}
+else if (Model.Session != null)
+{
+    <div class="session-container">
+        <div class="session-header">
+            <div class="session-info">
+                <h1>
+                    @if (Model.Session.SessionType == 1)
+                    {
+                        <i class="fas fa-user-friends"></i>
+                        <span>One-on-One Chat</span>
+                    }
+                    else
+                    {
+                        <i class="fas fa-users"></i>
+                        <span>@Model.Session.RoomName</span>
+                    }
+                </h1>
+                <p>Session started at @Model.Session.StartTime.ToString("HH:mm on MMM dd, yyyy")</p>
+            </div>
+            <div class="session-controls">
+                <form method="post" asp-page-handler="Leave" style="display: inline;">
+                    <button type="submit" class="btn btn-warning">
+                        <i class="fas fa-sign-out-alt"></i> Leave Session
+                    </button>
+                </form>
+                <form method="post" asp-page-handler="End" style="display: inline;">
+                    <button type="submit" class="btn btn-danger"
+                            onclick="return confirm('Are you sure you want to end this session for everyone?')">
+                        <i class="fas fa-stop"></i> End Session
+                    </button>
+                </form>
+            </div>
+        </div>
+
+        <div class="video-area">
+            <!-- Main video container -->
+            <div class="main-video">
+                <video id="localVideo" autoplay muted playsinline></video>
+                <div class="video-controls">
+                    <button id="muteBtn" class="control-btn">
+                        <i class="fas fa-microphone"></i>
+                    </button>
+                    <button id="videoBtn" class="control-btn">
+                        <i class="fas fa-video"></i>
+                    </button>
+                    <button id="screenShareBtn" class="control-btn">
+                        <i class="fas fa-desktop"></i>
+                    </button>
+                </div>
+            </div>
+
+            <!-- Participants grid -->
+            <div class="participants-grid">
+                @foreach (var participant in Model.Session.Participants.Where(p => p.Status == 1))
+                {
+                    <div class="participant-video" data-participant-id="@participant.AccountId">
+                        <video id="remoteVideo-@participant.AccountId" autoplay playsinline></video>
+                        <div class="participant-info">
+                            <span>@participant.Username</span>
+                        </div>
+                    </div>
+                }
+            </div>
+        </div>
+
+        <div class="session-sidebar">
+            <div class="participants-list">
+                <h3><i class="fas fa-users"></i> Participants (@Model.Session.Participants.Count(p => p.Status == 1))</h3>
+                <div class="participant-items">
+                    @foreach (var participant in Model.Session.Participants.Where(p => p.Status == 1))
+                    {
+                        <div class="participant-item">
+                            <img src="@(participant.AvatarImageUrl ?? "/images/default-avatar.png")"
+                                 alt="@participant.Username" class="participant-avatar" />
+                            <div class="participant-details">
+                                <span class="participant-name">@participant.Username</span>
+                                <small class="join-time">Joined @participant.JoinTime.ToString("HH:mm")</small>
+                            </div>
+                            <div class="participant-status">
+                                <span class="status-indicator online"></span>
+                            </div>
+                        </div>
+                    }
+                </div>
+            </div>
+
+            <!-- Session Chat -->
+            <div class="session-chat">
+                <h3><i class="fas fa-comments"></i> Session Chat</h3>
+                <div id="chatMessages" class="chat-messages">
+                    <!-- Chat messages will be populated by SignalR -->
+                </div>
+                <div class="chat-input">
+                    <input type="text" id="messageInput" placeholder="Type a message..." />
+                    <button id="sendBtn" class="btn btn-primary">
+                        <i class="fas fa-paper-plane"></i>
+                    </button>
+                </div>
+            </div>
+        </div>
+    </div>
+}
+
+<style>
+    .session-container {
+        height: 100vh;
+        display: grid;
+        grid-template-rows: auto 1fr;
+        background: #1a1a1a;
+        color: white;
+    }
+
+    .session-header {
+        background: #2d2d2d;
+        padding: 1rem 2rem;
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        border-bottom: 1px solid #3d3d3d;
+    }
+
+        .session-header h1 {
+            margin: 0;
+            font-size: 1.5rem;
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+        }
+
+        .session-header p {
+            margin: 0.25rem 0 0 0;
+            color: #ccc;
+            font-size: 0.9rem;
+        }
+
+    .session-controls {
+        display: flex;
+        gap: 0.5rem;
+    }
+
+    .video-area {
+        display: grid;
+        grid-template-columns: 1fr 300px;
+        height: 100%;
+    }
+
+    @@media (max-width: 1024px) {
+        .video-area
+
+    {
+        grid-template-columns: 1fr;
+        grid-template-rows: 1fr auto;
+    }
+
+    .session-sidebar {
+        max-height: 300px;
+    }
+
+    }
+
+    .main-video {
+        position: relative;
+        background: #000;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+    }
+
+        .main-video video {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+        }
+
+    .video-controls {
+        position: absolute;
+        bottom: 1rem;
+        left: 50%;
+        transform: translateX(-50%);
+        display: flex;
+        gap: 0.5rem;
+    }
+
+    .control-btn {
+        background: rgba(0, 0, 0, 0.7);
+        border: none;
+        color: white;
+        width: 50px;
+        height: 50px;
+        border-radius: 50%;
+        cursor: pointer;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        transition: background-color 0.2s;
+    }
+
+        .control-btn:hover {
+            background: rgba(0, 0, 0, 0.9);
+        }
+
+        .control-btn.muted {
+            background: #dc3545;
+        }
+
+    .participants-grid {
+        position: absolute;
+        top: 1rem;
+        right: 1rem;
+        display: flex;
+        flex-direction: column;
+        gap: 0.5rem;
+        max-width: 200px;
+    }
+
+    .participant-video {
+        position: relative;
+        width: 150px;
+        height: 100px;
+        background: #333;
+        border-radius: 8px;
+        overflow: hidden;
+    }
+
+        .participant-video video {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+        }
+
+    .participant-info {
+        position: absolute;
+        bottom: 0;
+        left: 0;
+        right: 0;
+        background: rgba(0, 0, 0, 0.7);
+        padding: 0.25rem 0.5rem;
+        font-size: 0.8rem;
+    }
+
+    .session-sidebar {
+        background: #2d2d2d;
+        border-left: 1px solid #3d3d3d;
+        display: grid;
+        grid-template-rows: auto 1fr;
+        height: 100%;
+    }
+
+    .participants-list {
+        padding: 1rem;
+        border-bottom: 1px solid #3d3d3d;
+    }
+
+        .participants-list h3 {
+            margin: 0 0 1rem 0;
+            font-size: 1rem;
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+        }
+
+    .participant-item {
+        display: flex;
+        align-items: center;
+        padding: 0.75rem 0;
+        border-bottom: 1px solid #3d3d3d;
+    }
+
+    .participant-avatar {
+        width: 40px;
+        height: 40px;
+        border-radius: 50%;
+        object-fit: cover;
+        margin-right: 0.75rem;
+    }
+
+    .participant-details {
+        flex: 1;
+    }
+
+    .participant-name {
+        display: block;
+        font-weight: 500;
+    }
+
+    .join-time {
+        display: block;
+        color: #ccc;
+        font-size: 0.8rem;
+    }
+
+    .status-indicator {
+        width: 8px;
+        height: 8px;
+        border-radius: 50%;
+        background: #28a745;
+    }
+
+    .session-chat {
+        display: flex;
+        flex-direction: column;
+        height: 100%;
+        padding: 1rem;
+    }
+
+        .session-chat h3 {
+            margin: 0 0 1rem 0;
+            font-size: 1rem;
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+        }
+
+    .chat-messages {
+        flex: 1;
+        overflow-y: auto;
+        margin-bottom: 1rem;
+        border: 1px solid #3d3d3d;
+        border-radius: 5px;
+        padding: 0.5rem;
+        background: #1a1a1a;
+    }
+
+    .chat-input {
+        display: flex;
+        gap: 0.5rem;
+    }
+
+        .chat-input input {
+            flex: 1;
+            padding: 0.5rem;
+            border: 1px solid #3d3d3d;
+            border-radius: 5px;
+            background: #1a1a1a;
+            color: white;
+        }
+
+            .chat-input input:focus {
+                outline: none;
+                border-color: #667eea;
+            }
+
+    .chat-message {
+        margin-bottom: 0.5rem;
+        padding: 0.5rem;
+        border-radius: 5px;
+        background: #333;
+    }
+
+        .chat-message .sender {
+            font-weight: bold;
+            color: #667eea;
+            font-size: 0.9rem;
+        }
+
+        .chat-message .content {
+            margin-top: 0.25rem;
+        }
+
+        .chat-message .time {
+            font-size: 0.8rem;
+            color: #ccc;
+            margin-top: 0.25rem;
+        }
+
+    .btn {
+        padding: 0.5rem 1rem;
+        border: none;
+        border-radius: 5px;
+        cursor: pointer;
+        text-decoration: none;
+        display: inline-flex;
+        align-items: center;
+        gap: 0.5rem;
+        font-size: 0.875rem;
+    }
+
+    .btn-warning {
+        background-color: #ffc107;
+        color: #000;
+    }
+
+    .btn-danger {
+        background-color: #dc3545;
+        color: white;
+    }
+
+    .btn-primary {
+        background-color: #667eea;
+        color: white;
+    }
+
+    .btn-outline {
+        background-color: transparent;
+        border: 1px solid #ddd;
+        color: #ddd;
+    }
+</style>
+
+<!-- SignalR and WebRTC JavaScript -->
+<!-- SignalR and WebRTC JavaScript -->
+<script src="https://cdnjs.cloudflare.com/ajax/libs/microsoft-signalr/6.0.6/signalr.min.js"></script>
+<script>
+    document.addEventListener('DOMContentLoaded', function() {
+        const sessionId = @Json.Serialize(Model.SessionId);
+        let localStream;
+        let peerConnections = {};
+        let isMuted = false;
+        let isVideoOff = false;
+
+        // Setup ICE servers for WebRTC
+        const configuration = {
+            iceServers: [
+                { urls: 'stun:stun.stunprotocol.org:3478' },
+                { urls: 'stun:stun.l.google.com:19302' }
+            ]
+        };
+
+        // SignalR connection
+        const connection = new signalR.HubConnectionBuilder()
+            .withUrl("/hubs/videochat")
+            .withAutomaticReconnect()
+            .build();
+
+        // Start SignalR connection
+        connection.start().then(function () {
+            console.log('Connected to VideoChatHub');
+            initializeMedia().then(() => {
+                connection.invoke("JoinSession", sessionId).catch(err => {
+                    console.error("Error joining session:", err);
+                });
+            });
+        }).catch(function (err) {
+            console.error('Error connecting to VideoChatHub:', err);
+            alert('Failed to connect to video chat service. Please refresh and try again.');
+        });
+
+        // Initialize media
+        async function initializeMedia() {
+            try {
+                localStream = await navigator.mediaDevices.getUserMedia({
+                    video: true,
+                    audio: true
+                });
+                document.getElementById('localVideo').srcObject = localStream;
+                return true;
+            } catch (error) {
+                console.error('Error accessing media devices:', error);
+                alert('Could not access camera or microphone. Please check your permissions.');
+                return false;
+            }
+        }
+
+        // Create and manage WebRTC peer connections
+        async function createPeerConnection(participantId) {
+            if (peerConnections[participantId]) {
+                console.log("Peer connection already exists for:", participantId);
+                return peerConnections[participantId];
+            }
+
+            console.log("Creating new peer connection for:", participantId);
+            const peerConnection = new RTCPeerConnection(configuration);
+            peerConnections[participantId] = peerConnection;
+
+            // Add local tracks to the connection
+            if (localStream) {
+                localStream.getTracks().forEach(track => {
+                    peerConnection.addTrack(track, localStream);
+                });
+            }
+
+            // Handle ICE candidates
+            peerConnection.onicecandidate = event => {
+                if (event.candidate) {
+                    connection.invoke("SendIceCandidate", sessionId, participantId, JSON.stringify(event.candidate))
+                        .catch(err => console.error("Error sending ICE candidate:", err));
+                }
+            };
+
+            // Handle connection state changes
+            peerConnection.onconnectionstatechange = () => {
+                console.log(`Connection with ${participantId} state: ${peerConnection.connectionState}`);
+            };
+
+            // Handle incoming tracks
+            peerConnection.ontrack = event => {
+                console.log("Received remote track from:", participantId);
+                const remoteVideo = document.getElementById(`remoteVideo-${participantId}`);
+                if (remoteVideo) {
+                    remoteVideo.srcObject = event.streams[0];
+                } else {
+                    console.warn(`Remote video element for ${participantId} not found`);
+                }
+            };
+
+            return peerConnection;
+        }
+
+        // Handle WebRTC signaling for offers
+        async function createAndSendOffer(participantId) {
+            try {
+                const peerConnection = await createPeerConnection(participantId);
+                const offer = await peerConnection.createOffer();
+                await peerConnection.setLocalDescription(offer);
+                console.log("Sending offer to:", participantId);
+                connection.invoke("SendOffer", sessionId, participantId, JSON.stringify(offer))
+                    .catch(err => console.error("Error sending offer:", err));
+            } catch (error) {
+                console.error("Error creating offer:", error);
+            }
+        }
+
+        // Control buttons
+        document.getElementById('muteBtn').addEventListener('click', function() {
+            isMuted = !isMuted;
+            if (localStream) {
+                localStream.getAudioTracks().forEach(track => {
+                    track.enabled = !isMuted;
+                });
+            }
+
+            const icon = this.querySelector('i');
+            if (isMuted) {
+                icon.className = 'fas fa-microphone-slash';
+                this.classList.add('muted');
+            } else {
+                icon.className = 'fas fa-microphone';
+                this.classList.remove('muted');
+            }
+        });
+
+        document.getElementById('videoBtn').addEventListener('click', function() {
+            isVideoOff = !isVideoOff;
+            if (localStream) {
+                localStream.getVideoTracks().forEach(track => {
+                    track.enabled = !isVideoOff;
+                });
+            }
+
+            const icon = this.querySelector('i');
+            if (isVideoOff) {
+                icon.className = 'fas fa-video-slash';
+                this.classList.add('muted');
+            } else {
+                icon.className = 'fas fa-video';
+                this.classList.remove('muted');
+            }
+        });
+
+        document.getElementById('screenShareBtn')?.addEventListener('click', async function() {
+            try {
+                const screenStream = await navigator.mediaDevices.getDisplayMedia({
+                    video: true
+                });
+
+                // Replace video track with screen share
+                const videoTrack = screenStream.getVideoTracks()[0];
+
+                // Replace the track in all peer connections
+                Object.values(peerConnections).forEach(pc => {
+                    const sender = pc.getSenders().find(s =>
+                        s.track && s.track.kind === 'video'
+                    );
+                    if (sender) {
+                        sender.replaceTrack(videoTrack);
+                    }
+                });
+
+                // Show screen share in local video
+                const localVideo = document.getElementById('localVideo');
+                const oldStream = localVideo.srcObject;
+                const newStream = new MediaStream([
+                    videoTrack,
+                    ...oldStream.getAudioTracks()
+                ]);
+                localVideo.srcObject = newStream;
+
+                // Handle end of screen sharing
+                videoTrack.onended = () => {
+                    if (localStream) {
+                        const originalVideoTrack = localStream.getVideoTracks()[0];
+
+                        // Replace back in peer connections
+                        Object.values(peerConnections).forEach(pc => {
+                            const sender = pc.getSenders().find(s =>
+                                s.track && s.track.kind === 'video'
+                            );
+                            if (sender) {
+                                sender.replaceTrack(originalVideoTrack);
+                            }
+                        });
+
+                        // Restore local video
+                        localVideo.srcObject = localStream;
+                    }
+                };
+            } catch (error) {
+                console.error('Error during screen sharing:', error);
+            }
+        });
+
+        // Chat functionality
+        const messageInput = document.getElementById('messageInput');
+        const sendBtn = document.getElementById('sendBtn');
+        const chatMessages = document.getElementById('chatMessages');
+
+        function sendMessage() {
+            const message = messageInput.value.trim();
+            if (message) {
+                connection.invoke("SendSessionMessage", sessionId, message)
+                    .catch(err => console.error("Error sending message:", err));
+                messageInput.value = '';
+            }
+        }
+
+        sendBtn.addEventListener('click', sendMessage);
+        messageInput.addEventListener('keypress', function(e) {
+            if (e.key === 'Enter') {
+                sendMessage();
+            }
+        });
+
+        // SignalR event handlers
+        connection.on("ReceiveSessionMessage", function(sender, message, timestamp) {
+            const messageDiv = document.createElement('div');
+            messageDiv.className = 'chat-message';
+            messageDiv.innerHTML = `
+                <div class="sender">${sender}</div>
+                <div class="content">${message}</div>
+                <div class="time">${new Date(timestamp).toLocaleTimeString()}</div>
+            `;
+            chatMessages.appendChild(messageDiv);
+            chatMessages.scrollTop = chatMessages.scrollHeight;
+        });
+
+        connection.on("UserJoined", function(sessionId, username) {
+            console.log('User joined:', username);
+            // Find the participant ID for this username
+            const participantElements = document.querySelectorAll('.participant-item');
+            participantElements.forEach(element => {
+                const nameElement = element.querySelector('.participant-name');
+                if (nameElement.textContent === username) {
+                    const participantId = element.closest('.participant-video')?.dataset.participantId;
+                    if (participantId) {
+                        // Initiate WebRTC connection
+                        createAndSendOffer(participantId);
+                    }
+                }
+            });
+
+            // Add notification to chat
+            const messageDiv = document.createElement('div');
+            messageDiv.className = 'chat-message system';
+            messageDiv.innerHTML = `
+                <div class="content">${username} joined the session</div>
+                <div class="time">${new Date().toLocaleTimeString()}</div>
+            `;
+            chatMessages.appendChild(messageDiv);
+            chatMessages.scrollTop = chatMessages.scrollHeight;
+        });
+
+        connection.on("UserLeft", function(sessionId, username) {
+            console.log('User left:', username);
+            // Add notification to chat
+            const messageDiv = document.createElement('div');
+            messageDiv.className = 'chat-message system';
+            messageDiv.innerHTML = `
+                <div class="content">${username} left the session</div>
+                <div class="time">${new Date().toLocaleTimeString()}</div>
+            `;
+            chatMessages.appendChild(messageDiv);
+            chatMessages.scrollTop = chatMessages.scrollHeight;
+        });
+
+        connection.on("SessionEnded", function(sessionId) {
+            alert('Session has been ended by the host');
+            window.location.href = '/VideoChat';
+        });
+
+        // WebRTC signaling event handlers
+        connection.on("ReceiveOffer", async function(sender, receiver, offerJson) {
+            try {
+                // Find the participant ID for this sender
+                let senderId;
+                const participantElements = document.querySelectorAll('.participant-item');
+                participantElements.forEach(element => {
+                    const nameElement = element.querySelector('.participant-name');
+                    if (nameElement.textContent === sender) {
+                        senderId = element.closest('.participant-video')?.dataset.participantId;
+                    }
+                });
+
+                if (!senderId) {
+                    console.warn("Could not find participant ID for sender:", sender);
+                    return;
+                }
+
+                console.log("Received offer from:", sender);
+                const peerConnection = await createPeerConnection(senderId);
+
+                const offer = JSON.parse(offerJson);
+                await peerConnection.setRemoteDescription(new RTCSessionDescription(offer));
+
+                const answer = await peerConnection.createAnswer();
+                await peerConnection.setLocalDescription(answer);
+
+                console.log("Sending answer to:", sender);
+                connection.invoke("SendAnswer", sessionId, senderId, JSON.stringify(answer))
+                    .catch(err => console.error("Error sending answer:", err));
+
+            } catch (error) {
+                console.error("Error handling offer:", error);
+            }
+        });
+
+        connection.on("ReceiveAnswer", async function(sender, receiver, answerJson) {
+            try {
+                // Find the participant ID for this sender
+                let senderId;
+                const participantElements = document.querySelectorAll('.participant-item');
+                participantElements.forEach(element => {
+                    const nameElement = element.querySelector('.participant-name');
+                    if (nameElement.textContent === sender) {
+                        senderId = element.closest('.participant-video')?.dataset.participantId;
+                    }
+                });
+
+                if (!senderId || !peerConnections[senderId]) {
+                    console.warn("No peer connection exists for:", senderId);
+                    return;
+                }
+
+                console.log("Received answer from:", sender);
+                const answer = JSON.parse(answerJson);
+                await peerConnections[senderId].setRemoteDescription(new RTCSessionDescription(answer));
+
+            } catch (error) {
+                console.error("Error handling answer:", error);
+            }
+        });
+
+        connection.on("ReceiveIceCandidate", async function(sender, receiver, candidateJson) {
+            try {
+                // Find the participant ID for this sender
+                let senderId;
+                const participantElements = document.querySelectorAll('.participant-item');
+                participantElements.forEach(element => {
+                    const nameElement = element.querySelector('.participant-name');
+                    if (nameElement.textContent === sender) {
+                        senderId = element.closest('.participant-video')?.dataset.participantId;
+                    }
+                });
+
+                if (!senderId || !peerConnections[senderId]) {
+                    console.warn("No peer connection exists for:", senderId);
+                    return;
+                }
+
+                console.log("Received ICE candidate from:", sender);
+                const candidate = JSON.parse(candidateJson);
+                await peerConnections[senderId].addIceCandidate(new RTCIceCandidate(candidate));
+
+            } catch (error) {
+                console.error("Error handling ICE candidate:", error);
+            }
+        });
+
+        // Clean up on page unload
+        window.addEventListener('beforeunload', function() {
+            // Leave session when the user navigates away
+            connection.invoke("LeaveSession", sessionId).catch(err => {
+                console.error("Error leaving session:", err);
+            });
+
+            // Close all peer connections
+            Object.values(peerConnections).forEach(pc => pc.close());
+
+            // Stop local media tracks
+            if (localStream) {
+                localStream.getTracks().forEach(track => track.stop());
+            }
+        });
+    });
+</script>
+

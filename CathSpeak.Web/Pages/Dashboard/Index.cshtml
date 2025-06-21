@@ -1,0 +1,276 @@
+﻿@page
+@model CathSpeak.Web.Pages.Dashboard.IndexModel
+@{
+    ViewData["Title"] = "Dashboard";
+}
+
+<div class="dashboard-container">
+    <div class="dashboard-header">
+        <h1>Welcome back, @User.Identity?.Name!</h1>
+        <p>Ready to continue your language learning journey?</p>
+    </div>
+
+    <div class="dashboard-grid">
+        <!-- Quick Actions -->
+        <div class="dashboard-card">
+            <h3><i class="fas fa-video"></i> Video Chat</h3>
+            <p>Start a conversation with other learners</p>
+            <div class="action-buttons">
+                <a href="/VideoChat/OneOnOne" class="btn btn-primary">1-on-1 Chat</a>
+                <a href="/VideoChat/Room" class="btn btn-secondary">Join Room</a>
+            </div>
+        </div>
+
+        <!-- Recent Conversations -->
+        <div class="dashboard-card">
+            <h3><i class="fas fa-comments"></i> Recent Conversations</h3>
+            @if (Model.Conversations.Any())
+            {
+                <div class="conversation-list">
+                    @foreach (var conversation in Model.Conversations.Take(5))
+                    {
+                        <div class="conversation-item">
+                            <img src="@(conversation.Friend.AvatarImageUrl ?? "/images/default-avatar.png")"
+                                 alt="@conversation.Friend.Username" class="avatar-sm" />
+                            <div class="conversation-info">
+                                <span class="friend-name">@conversation.Friend.Username</span>
+                                <span class="last-message">@conversation.LastMessage</span>
+                            </div>
+                            <a href="/Chat/Conversation/@conversation.ConversationId" class="btn btn-sm">Open</a>
+                        </div>
+                    }
+                </div>
+            }
+            else
+            {
+                <p class="empty-state">No conversations yet. Start chatting with friends!</p>
+            }
+        </div>
+
+        <!-- Friends List -->
+        <div class="dashboard-card">
+            <h3><i class="fas fa-users"></i> Friends</h3>
+            @if (Model.Friends.Any())
+            {
+                <div class="friends-list">
+                    @foreach (var friend in Model.Friends.Take(6))
+                    {
+                        <div class="friend-item">
+                            <img src="@(friend.AvatarImageUrl ?? "/images/default-avatar.png")"
+                                 alt="@friend.Username" class="avatar-sm" />
+                            <span>@friend.Username</span>
+                        </div>
+                    }
+                </div>
+                <a href="/Friends" class="view-all">View all friends</a>
+            }
+            else
+            {
+                <p class="empty-state">No friends yet. <a href="/Friends/Search">Find friends</a></p>
+            }
+        </div>
+
+        <!-- My Rooms -->
+        <div class="dashboard-card">
+            <h3><i class="fas fa-door-open"></i> My Rooms</h3>
+            @if (Model.Rooms.Any())
+            {
+                <div class="rooms-list">
+                    @foreach (var room in Model.Rooms.Take(3))
+                    {
+                        <div class="room-item">
+                            <div class="room-info">
+                                <h4>@room.Name</h4>
+                                <p>@room.Description</p>
+                            </div>
+                            <a href="/Rooms/@room.RoomId" class="btn btn-sm">Enter</a>
+                        </div>
+                    }
+                </div>
+                <a href="/Rooms" class="view-all">View all rooms</a>
+            }
+            else
+            {
+                <p class="empty-state">No rooms created. <a href="/Rooms/Create">Create your first room</a></p>
+            }
+        </div>
+    </div>
+</div>
+
+<style>
+    .dashboard-container {
+        padding: 2rem;
+        max-width: 1200px;
+        margin: 0 auto;
+    }
+
+    .dashboard-header {
+        text-align: center;
+        margin-bottom: 2rem;
+    }
+
+        .dashboard-header h1 {
+            color: #333;
+            margin-bottom: 0.5rem;
+        }
+
+        .dashboard-header p {
+            color: #666;
+        }
+
+    .dashboard-grid {
+        display: grid;
+        grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+        gap: 1.5rem;
+    }
+
+    .dashboard-card {
+        background: white;
+        padding: 1.5rem;
+        border-radius: 10px;
+        box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+        border: 1px solid #e1e5e9;
+    }
+
+        .dashboard-card h3 {
+            color: #333;
+            margin-bottom: 1rem;
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+        }
+
+            .dashboard-card h3 i {
+                color: #667eea;
+            }
+
+    .action-buttons {
+        display: flex;
+        gap: 0.5rem;
+        margin-top: 1rem;
+    }
+
+    .conversation-list, .friends-list, .rooms-list {
+        space-y: 0.75rem;
+    }
+
+    .conversation-item {
+        display: flex;
+        align-items: center;
+        padding: 0.75rem;
+        border: 1px solid #e1e5e9;
+        border-radius: 5px;
+        margin-bottom: 0.5rem;
+    }
+
+    .conversation-info {
+        flex: 1;
+        margin-left: 0.75rem;
+    }
+
+    .friend-name {
+        display: block;
+        font-weight: 500;
+        color: #333;
+    }
+
+    .last-message {
+        display: block;
+        font-size: 0.875rem;
+        color: #666;
+        margin-top: 0.25rem;
+    }
+
+    .friends-list {
+        display: grid;
+        grid-template-columns: repeat(auto-fill, minmax(120px, 1fr));
+        gap: 0.75rem;
+    }
+
+    .friend-item {
+        text-align: center;
+        padding: 0.75rem;
+        border: 1px solid #e1e5e9;
+        border-radius: 5px;
+    }
+
+        .friend-item span {
+            display: block;
+            margin-top: 0.5rem;
+            font-size: 0.875rem;
+        }
+
+    .room-item {
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        padding: 0.75rem;
+        border: 1px solid #e1e5e9;
+        border-radius: 5px;
+        margin-bottom: 0.5rem;
+    }
+
+    .room-info h4 {
+        margin: 0 0 0.25rem 0;
+        color: #333;
+    }
+
+    .room-info p {
+        margin: 0;
+        font-size: 0.875rem;
+        color: #666;
+    }
+
+    .avatar-sm {
+        width: 40px;
+        height: 40px;
+        border-radius: 50%;
+        object-fit: cover;
+    }
+
+    .btn {
+        padding: 0.5rem 1rem;
+        border: none;
+        border-radius: 5px;
+        cursor: pointer;
+        text-decoration: none;
+        display: inline-block;
+        text-align: center;
+        font-size: 0.875rem;
+    }
+
+    .btn-primary {
+        background-color: #667eea;
+        color: white;
+    }
+
+    .btn-secondary {
+        background-color: #6c757d;
+        color: white;
+    }
+
+    .btn-sm {
+        padding: 0.375rem 0.75rem;
+        font-size: 0.8rem;
+    }
+
+    .view-all {
+        display: block;
+        text-align: center;
+        margin-top: 1rem;
+        color: #667eea;
+        text-decoration: none;
+        font-size: 0.875rem;
+    }
+
+    .empty-state {
+        text-align: center;
+        color: #666;
+        font-style: italic;
+    }
+
+        .empty-state a {
+            color: #667eea;
+            text-decoration: none;
+        }
+</style>

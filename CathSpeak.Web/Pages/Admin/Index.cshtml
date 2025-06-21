@@ -1,0 +1,398 @@
+﻿@page
+@model CathSpeak.Web.Pages.Admin.IndexModel
+@{
+    ViewData["Title"] = "Admin Dashboard";
+}
+
+<div class="admin-container">
+    <div class="page-header">
+        <h1><i class="fas fa-tachometer-alt"></i> Admin Dashboard</h1>
+        <p>Manage users, roles, and system settings</p>
+    </div>
+
+    <!-- Stats Cards -->
+    <div class="stats-grid">
+        <div class="stat-card">
+            <div class="stat-icon">
+                <i class="fas fa-users"></i>
+            </div>
+            <div class="stat-info">
+                <h3>@Model.Stats.TotalUsers</h3>
+                <p>Total Users</p>
+            </div>
+        </div>
+
+        <div class="stat-card">
+            <div class="stat-icon active">
+                <i class="fas fa-user-check"></i>
+            </div>
+            <div class="stat-info">
+                <h3>@Model.Stats.ActiveUsers</h3>
+                <p>Active Users</p>
+            </div>
+        </div>
+
+        <div class="stat-card">
+            <div class="stat-icon">
+                <i class="fas fa-user-tag"></i>
+            </div>
+            <div class="stat-info">
+                <h3>@Model.Stats.TotalRoles</h3>
+                <p>User Roles</p>
+            </div>
+        </div>
+    </div>
+
+    <!-- Quick Actions -->
+    <div class="admin-sections">
+        <div class="admin-section">
+            <h2><i class="fas fa-users-cog"></i> User Management</h2>
+            <p>Manage user accounts and permissions</p>
+
+            <div class="recent-users">
+                <h4>Recent Users (@Model.Users.Count)</h4>
+                <div class="users-table">
+                    <table class="table">
+                        <thead>
+                            <tr>
+                                <th>User</th>
+                                <th>Email</th>
+                                <th>Role</th>
+                                <th>Status</th>
+                                <th>Joined</th>
+                                <th>Actions</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            @foreach (var user in Model.Users.Take(10))
+                            {
+                                <tr>
+                                    <td>
+                                        <div class="user-info">
+                                            <img src="@(user.AvatarImageUrl ?? "/images/default-avatar.png")"
+                                                 alt="@user.Username" class="user-avatar" />
+                                            <span>@user.Username</span>
+                                        </div>
+                                    </td>
+                                    <td>@user.Email</td>
+                                    <td>
+                                        <span class="role-badge">@user.RoleName</span>
+                                    </td>
+                                    <td>
+                                        @if (user.Status == 1)
+                                        {
+                                            <span class="status-badge active">Active</span>
+                                        }
+                                        else
+                                        {
+                                            <span class="status-badge inactive">Inactive</span>
+                                        }
+                                    </td>
+                                    <td>@user.CreateDate.ToString("MMM dd, yyyy")</td>
+                                    <td>
+                                        <div class="action-buttons">
+                                            <button class="btn btn-sm btn-outline">Edit</button>
+                                            <button class="btn btn-sm btn-outline-danger">Suspend</button>
+                                        </div>
+                                    </td>
+                                </tr>
+                            }
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+        </div>
+
+        <div class="admin-section">
+            <h2><i class="fas fa-shield-alt"></i> Role Management</h2>
+            <p>Manage user roles and permissions</p>
+
+            <div class="roles-list">
+                @foreach (var role in Model.Roles)
+                {
+                    <div class="role-item">
+                        <div class="role-info">
+                            <h4>@role.RoleName</h4>
+                            <p>Role ID: @role.RoleId</p>
+                        </div>
+                        <div class="role-actions">
+                            @if (role.Status == 1)
+                            {
+                                <span class="status-badge active">Active</span>
+                            }
+                            else
+                            {
+                                <span class="status-badge inactive">Inactive</span>
+                            }
+                            <button class="btn btn-sm btn-outline">Edit</button>
+                        </div>
+                    </div>
+                }
+            </div>
+
+            <div class="section-actions">
+                <button class="btn btn-primary">
+                    <i class="fas fa-plus"></i> Create New Role
+                </button>
+            </div>
+        </div>
+    </div>
+</div>
+
+<style>
+    .admin-container {
+        padding: 2rem;
+        max-width: 1400px;
+        margin: 0 auto;
+    }
+
+    .page-header {
+        text-align: center;
+        margin-bottom: 2rem;
+    }
+
+    .stats-grid {
+        display: grid;
+        grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+        gap: 1.5rem;
+        margin-bottom: 3rem;
+    }
+
+    .stat-card {
+        background: white;
+        padding: 1.5rem;
+        border-radius: 10px;
+        box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+        display: flex;
+        align-items: center;
+        gap: 1rem;
+    }
+
+    .stat-icon {
+        width: 60px;
+        height: 60px;
+        border-radius: 50%;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        background: #667eea;
+        color: white;
+        font-size: 1.5rem;
+    }
+
+        .stat-icon.active {
+            background: #28a745;
+        }
+
+    .stat-info h3 {
+        margin: 0;
+        font-size: 2rem;
+        color: #333;
+    }
+
+    .stat-info p {
+        margin: 0;
+        color: #666;
+    }
+
+    .admin-sections {
+        display: grid;
+        grid-template-columns: 2fr 1fr;
+        gap: 2rem;
+    }
+
+    @@media (max-width: 1024px) {
+        .admin-sections{
+        grid-template-columns: 1fr;
+    }
+
+    }
+
+    .admin-section {
+        background: white;
+        padding: 2rem;
+        border-radius: 10px;
+        box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+    }
+
+        .admin-section h2 {
+            color: #333;
+            margin-bottom: 0.5rem;
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+        }
+
+        .admin-section > p {
+            color: #666;
+            margin-bottom: 2rem;
+        }
+
+    @@media (max-width: 1024px) {
+        .admin-sections
+
+    {
+        grid-template-columns: 1fr;
+    }
+
+    }
+
+    .admin-section {
+        background: white;
+        padding: 2rem;
+        border-radius: 10px;
+        box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+    }
+
+        .admin-section h2 {
+            color: #333;
+            margin-bottom: 0.5rem;
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+        }
+
+        .admin-section > p {
+            color: #666;
+            margin-bottom: 2rem;
+        }
+
+    .users-table {
+        overflow-x: auto;
+    }
+
+    .table {
+        width: 100%;
+        border-collapse: collapse;
+        margin-top: 1rem;
+    }
+
+        .table th,
+        .table td {
+            padding: 0.75rem;
+            text-align: left;
+            border-bottom: 1px solid #e1e5e9;
+        }
+
+        .table th {
+            background: #f8f9fa;
+            font-weight: 600;
+            color: #333;
+        }
+
+    .user-info {
+        display: flex;
+        align-items: center;
+        gap: 0.5rem;
+    }
+
+    .user-avatar {
+        width: 32px;
+        height: 32px;
+        border-radius: 50%;
+        object-fit: cover;
+    }
+
+    .role-badge {
+        background: #e9ecef;
+        color: #495057;
+        padding: 0.25rem 0.5rem;
+        border-radius: 15px;
+        font-size: 0.8rem;
+    }
+
+    .status-badge {
+        padding: 0.25rem 0.5rem;
+        border-radius: 15px;
+        font-size: 0.8rem;
+        font-weight: 500;
+    }
+
+        .status-badge.active {
+            background: #d4edda;
+            color: #155724;
+        }
+
+        .status-badge.inactive {
+            background: #f8d7da;
+            color: #721c24;
+        }
+
+    .action-buttons {
+        display: flex;
+        gap: 0.25rem;
+    }
+
+    .roles-list {
+        display: flex;
+        flex-direction: column;
+        gap: 1rem;
+    }
+
+    .role-item {
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        padding: 1rem;
+        border: 1px solid #e1e5e9;
+        border-radius: 8px;
+        margin-bottom: 1rem;
+    }
+
+    .role-info h4 {
+        margin: 0 0 0.25rem 0;
+        color: #333;
+    }
+
+    .role-info p {
+        margin: 0;
+        color: #666;
+        font-size: 0.9rem;
+    }
+
+    .role-actions {
+        display: flex;
+        align-items: center;
+        gap: 0.5rem;
+    }
+
+    .section-actions {
+        margin-top: 1.5rem;
+        text-align: center;
+    }
+
+    .btn {
+        padding: 0.5rem 1rem;
+        border: none;
+        border-radius: 5px;
+        cursor: pointer;
+        text-decoration: none;
+        display: inline-flex;
+        align-items: center;
+        gap: 0.5rem;
+        font-size: 0.875rem;
+        font-weight: 500;
+    }
+
+    .btn-sm {
+        padding: 0.375rem 0.75rem;
+        font-size: 0.8rem;
+    }
+
+    .btn-primary {
+        background: #667eea;
+        color: white;
+    }
+
+    .btn-outline {
+        background: transparent;
+        border: 1px solid #ddd;
+        color: #666;
+    }
+
+    .btn-outline-danger {
+        background: transparent;
+        border: 1px solid #dc3545;
+        color: #dc3545;
+    }
+</style>
