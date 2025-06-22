@@ -1,7 +1,9 @@
-using CathSpeak.Web.Services;
 using CathSpeak.Web.Hubs;
 using CathSpeak.Web.Models;
 using CathSpeak.Web.Models; // Added namespace for IceServerProvider  
+using CathSpeak.Web.Services;
+using System.Net;
+using System.Net.Sockets;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -11,7 +13,7 @@ builder.Services.AddRazorPages();
 // Add HttpClient for API calls  
 builder.Services.AddHttpClient("CathSpeakAPI", client =>
 {
-    client.BaseAddress = new Uri("http://localhost:7001/");
+    client.BaseAddress = new Uri("http://192.168.1.3:7001");
     client.DefaultRequestHeaders.Add("Accept", "application/json");
     client.Timeout = TimeSpan.FromSeconds(30);
 });
@@ -81,7 +83,23 @@ else
     app.UseDeveloperExceptionPage();
 }
 
-app.UseHttpsRedirection();
+if (app.Environment.IsDevelopment())
+{
+    // Get local IP address to make app accessible on network
+    var host = Dns.GetHostEntry(Dns.GetHostName());
+    var ipAddress = host.AddressList.FirstOrDefault(ip => ip.AddressFamily == AddressFamily.InterNetwork);
+
+    // Only do this in development
+    if (ipAddress != null)
+    {
+        app.Urls.Add($"https://{ipAddress}:7057");
+        app.Urls.Add($"https://{ipAddress}:7056");
+
+        Console.WriteLine($"Server also available at: https://{ipAddress}:7056");
+    }
+}
+
+        app.UseHttpsRedirection();
 app.UseStaticFiles();
 
 app.UseRouting();

@@ -72,9 +72,12 @@
                             <a href="/Chat?conversationId=@friend.AccountId" class="btn btn-primary">
                                 <i class="fas fa-comment"></i> Chat
                             </a>
-                            <a href="/VideoChat/StartOneOnOne/@friend.AccountId" class="btn btn-success">
-                                <i class="fas fa-video"></i> Video Call
-                            </a>
+                            <form method="get" asp-page="/VideoChat/Index" asp-page-handler="StartOneOnOne" style="display: inline;">
+                                <input type="hidden" name="friendId" value="@friend.AccountId" />
+                                <button type="submit" class="btn btn-success">
+                                    <i class="fas fa-video"></i> Video Call
+                                </button>
+                            </form>
                             <button class="btn btn-outline" onclick="toggleFriendOptions(@friend.AccountId)">
                                 <i class="fas fa-ellipsis-v"></i>
                             </button>

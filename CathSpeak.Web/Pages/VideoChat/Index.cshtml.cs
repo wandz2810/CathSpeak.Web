@@ -79,5 +79,43 @@ namespace CathSpeak.Web.Pages.VideoChat
 
             return RedirectToPage();
         }
+
+        // Add method to check if user is allowed to access a session
+        public async Task<bool> IsUserAllowedInSessionAsync(int sessionId, string token)
+        {
+            var session = await _apiService.GetAsync<VideoChatSessionDto>($"api/videochats/{sessionId}", token);
+            
+            if (session == null)
+                return false;
+                
+            // Check if current user is a participant
+            var username = User.Identity?.Name;
+            return session.Participants.Any(p => p.Username == username);
+        }
+
+        // Add this method to support direct navigation
+        public async Task<IActionResult> OnGetStartOneOnOneAsync(int friendId)
+        {
+            var token = HttpContext.Session.GetString("Token");
+
+            if (!string.IsNullOrEmpty(token))
+            {
+                var sessionData = new
+                {
+                    RoomId = 0,
+                    SessionType = 1,
+                    InvitedParticipants = new List<int> { friendId }
+                };
+
+                var session = await _apiService.PostAsync<VideoChatSessionDto>("api/videochats", sessionData, token);
+
+                if (session != null)
+                {
+                    return RedirectToPage("/VideoChat/Session", new { sessionId = session.SessionId });
+                }
+            }
+
+            return RedirectToPage();
+        }
     }
 }
