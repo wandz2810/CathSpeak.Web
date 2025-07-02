@@ -38,7 +38,7 @@ namespace CathSpeak.Web.Pages.VideoChat
             try
             {
                 // Get session details
-                Session = await _apiService.GetAsync<VideoChatSessionDto>($"api/videochats/{SessionId}", token);
+                Session = await _apiService.GetAsync<VideoChatSessionDto>($"api/VideoChats/{SessionId}", token);
 
                 if (Session == null)
                 {
@@ -60,7 +60,7 @@ namespace CathSpeak.Web.Pages.VideoChat
                         token);
 
                     // Refresh session data
-                    Session = await _apiService.GetAsync<VideoChatSessionDto>($"api/videochats/{SessionId}", token);
+                    Session = await _apiService.GetAsync<VideoChatSessionDto>($"api/VideoChats/{SessionId}", token);
                 }
 
                 return Page();
@@ -114,7 +114,7 @@ namespace CathSpeak.Web.Pages.VideoChat
 
             try
             {
-                await _apiService.PostAsync<dynamic>($"api/videochats/{SessionId}/end", new { }, token);
+                await _apiService.PostAsync<dynamic>($"api/VideoChats/{SessionId}/end", new { }, token);
 
                 // Log successful end action
                 _logger.LogInformation("User {Username} ended video session {SessionId}",

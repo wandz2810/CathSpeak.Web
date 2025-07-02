@@ -35,10 +35,10 @@ namespace CathSpeak.Web.Hubs
         public async Task SendOffer(int sessionId, string targetUserId, string offer)
         {
             var username = Context.User?.Identity?.Name ?? "Unknown";
-            
+
             // Get connection ID of target user (you'll need to track this when users join)
             var connectionId = GetConnectionIdForUser(targetUserId);
-            
+
             if (!string.IsNullOrEmpty(connectionId))
             {
                 // Send directly to target user
@@ -78,14 +78,14 @@ namespace CathSpeak.Web.Hubs
             // This would require tracking user sessions
             var username = Context.User?.Identity?.Name;
             var sessionIds = GetSessionsForUser(username);
-            
+
             foreach (var sessionId in sessionIds)
             {
                 // Notify other participants that this user left
                 await Clients.Group($"session_{sessionId}")
                     .SendAsync("UserLeft", sessionId, username);
             }
-            
+
             // Call the base implementation
             await base.OnDisconnectedAsync(exception);
         }

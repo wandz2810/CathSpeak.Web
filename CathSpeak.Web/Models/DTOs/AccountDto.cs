@@ -53,6 +53,7 @@
         public int SessionId { get; set; }
         public string? SessionToken { get; set; }
         public int SessionType { get; set; }
+        public int? CreatorId { get; set; }
         public DateTime StartTime { get; set; }
         public DateTime? EndTime { get; set; }
         public int RoomId { get; set; }
