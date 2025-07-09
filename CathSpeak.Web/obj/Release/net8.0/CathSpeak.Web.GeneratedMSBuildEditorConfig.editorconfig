@@ -1,0 +1,137 @@
+is_global = true
+build_property.TargetFramework = net8.0
+build_property.TargetPlatformMinVersion = 
+build_property.UsingMicrosoftNETSdkWeb = true
+build_property.ProjectTypeGuids = 
+build_property.InvariantGlobalization = 
+build_property.PlatformNeutralAssembly = 
+build_property.EnforceExtendedAnalyzerRules = 
+build_property._SupportedPlatformList = Linux,macOS,Windows
+build_property.RootNamespace = CathSpeak.Web
+build_property.RootNamespace = CathSpeak.Web
+build_property.ProjectDir = C:\Users\quang\Desktop\Cath\CathSpeak.Web\CathSpeak.Web\
+build_property.EnableComHosting = 
+build_property.EnableGeneratedComInterfaceComImportInterop = 
+build_property.RazorLangVersion = 8.0
+build_property.SupportLocalizedComponentNames = 
+build_property.GenerateRazorMetadataSourceChecksumAttributes = 
+build_property.MSBuildProjectDirectory = C:\Users\quang\Desktop\Cath\CathSpeak.Web\CathSpeak.Web
+build_property._RazorSourceGeneratorDebug = 
+build_property.EffectiveAnalysisLevelStyle = 8.0
+build_property.EnableCodeStyleSeverity = 
+
+[C:/Users/quang/Desktop/Cath/CathSpeak.Web/CathSpeak.Web/Pages/Admin/Index.cshtml]
+build_metadata.AdditionalFiles.TargetPath = UGFnZXNcQWRtaW5cSW5kZXguY3NodG1s
+build_metadata.AdditionalFiles.CssScope = 
+
+[C:/Users/quang/Desktop/Cath/CathSpeak.Web/CathSpeak.Web/Pages/Auth/AccessDenied.cshtml]
+build_metadata.AdditionalFiles.TargetPath = UGFnZXNcQXV0aFxBY2Nlc3NEZW5pZWQuY3NodG1s
+build_metadata.AdditionalFiles.CssScope = 
+
+[C:/Users/quang/Desktop/Cath/CathSpeak.Web/CathSpeak.Web/Pages/Auth/Login.cshtml]
+build_metadata.AdditionalFiles.TargetPath = UGFnZXNcQXV0aFxMb2dpbi5jc2h0bWw=
+build_metadata.AdditionalFiles.CssScope = 
+
+[C:/Users/quang/Desktop/Cath/CathSpeak.Web/CathSpeak.Web/Pages/Auth/Logout.cshtml]
+build_metadata.AdditionalFiles.TargetPath = UGFnZXNcQXV0aFxMb2dvdXQuY3NodG1s
+build_metadata.AdditionalFiles.CssScope = 
+
+[C:/Users/quang/Desktop/Cath/CathSpeak.Web/CathSpeak.Web/Pages/Auth/Register.cshtml]
+build_metadata.AdditionalFiles.TargetPath = UGFnZXNcQXV0aFxSZWdpc3Rlci5jc2h0bWw=
+build_metadata.AdditionalFiles.CssScope = 
+
+[C:/Users/quang/Desktop/Cath/CathSpeak.Web/CathSpeak.Web/Pages/Chat/Conversation.cshtml]
+build_metadata.AdditionalFiles.TargetPath = UGFnZXNcQ2hhdFxDb252ZXJzYXRpb24uY3NodG1s
+build_metadata.AdditionalFiles.CssScope = 
+
+[C:/Users/quang/Desktop/Cath/CathSpeak.Web/CathSpeak.Web/Pages/Chat/Index.cshtml]
+build_metadata.AdditionalFiles.TargetPath = UGFnZXNcQ2hhdFxJbmRleC5jc2h0bWw=
+build_metadata.AdditionalFiles.CssScope = 
+
+[C:/Users/quang/Desktop/Cath/CathSpeak.Web/CathSpeak.Web/Pages/Dashboard/Index.cshtml]
+build_metadata.AdditionalFiles.TargetPath = UGFnZXNcRGFzaGJvYXJkXEluZGV4LmNzaHRtbA==
+build_metadata.AdditionalFiles.CssScope = 
+
+[C:/Users/quang/Desktop/Cath/CathSpeak.Web/CathSpeak.Web/Pages/Error.cshtml]
+build_metadata.AdditionalFiles.TargetPath = UGFnZXNcRXJyb3IuY3NodG1s
+build_metadata.AdditionalFiles.CssScope = 
+
+[C:/Users/quang/Desktop/Cath/CathSpeak.Web/CathSpeak.Web/Pages/Friends/Index.cshtml]
+build_metadata.AdditionalFiles.TargetPath = UGFnZXNcRnJpZW5kc1xJbmRleC5jc2h0bWw=
+build_metadata.AdditionalFiles.CssScope = 
+
+[C:/Users/quang/Desktop/Cath/CathSpeak.Web/CathSpeak.Web/Pages/Friends/Search.cshtml]
+build_metadata.AdditionalFiles.TargetPath = UGFnZXNcRnJpZW5kc1xTZWFyY2guY3NodG1s
+build_metadata.AdditionalFiles.CssScope = 
+
+[C:/Users/quang/Desktop/Cath/CathSpeak.Web/CathSpeak.Web/Pages/Index.cshtml]
+build_metadata.AdditionalFiles.TargetPath = UGFnZXNcSW5kZXguY3NodG1s
+build_metadata.AdditionalFiles.CssScope = 
+
+[C:/Users/quang/Desktop/Cath/CathSpeak.Web/CathSpeak.Web/Pages/Privacy.cshtml]
+build_metadata.AdditionalFiles.TargetPath = UGFnZXNcUHJpdmFjeS5jc2h0bWw=
+build_metadata.AdditionalFiles.CssScope = 
+
+[C:/Users/quang/Desktop/Cath/CathSpeak.Web/CathSpeak.Web/Pages/Profile/Index.cshtml]
+build_metadata.AdditionalFiles.TargetPath = UGFnZXNcUHJvZmlsZVxJbmRleC5jc2h0bWw=
+build_metadata.AdditionalFiles.CssScope = 
+
+[C:/Users/quang/Desktop/Cath/CathSpeak.Web/CathSpeak.Web/Pages/Rooms/Create.cshtml]
+build_metadata.AdditionalFiles.TargetPath = UGFnZXNcUm9vbXNcQ3JlYXRlLmNzaHRtbA==
+build_metadata.AdditionalFiles.CssScope = 
+
+[C:/Users/quang/Desktop/Cath/CathSpeak.Web/CathSpeak.Web/Pages/Rooms/Edit.cshtml]
+build_metadata.AdditionalFiles.TargetPath = UGFnZXNcUm9vbXNcRWRpdC5jc2h0bWw=
+build_metadata.AdditionalFiles.CssScope = 
+
+[C:/Users/quang/Desktop/Cath/CathSpeak.Web/CathSpeak.Web/Pages/Rooms/Index.cshtml]
+build_metadata.AdditionalFiles.TargetPath = UGFnZXNcUm9vbXNcSW5kZXguY3NodG1s
+build_metadata.AdditionalFiles.CssScope = 
+
+[C:/Users/quang/Desktop/Cath/CathSpeak.Web/CathSpeak.Web/Pages/Settings/Index.cshtml]
+build_metadata.AdditionalFiles.TargetPath = UGFnZXNcU2V0dGluZ3NcSW5kZXguY3NodG1s
+build_metadata.AdditionalFiles.CssScope = 
+
+[C:/Users/quang/Desktop/Cath/CathSpeak.Web/CathSpeak.Web/Pages/Shared/_Layout.cshtml]
+build_metadata.AdditionalFiles.TargetPath = UGFnZXNcU2hhcmVkXF9MYXlvdXQuY3NodG1s
+build_metadata.AdditionalFiles.CssScope = 
+
+[C:/Users/quang/Desktop/Cath/CathSpeak.Web/CathSpeak.Web/Pages/Shared/_LayoutAuth.cshtml]
+build_metadata.AdditionalFiles.TargetPath = UGFnZXNcU2hhcmVkXF9MYXlvdXRBdXRoLmNzaHRtbA==
+build_metadata.AdditionalFiles.CssScope = 
+
+[C:/Users/quang/Desktop/Cath/CathSpeak.Web/CathSpeak.Web/Pages/Shared/_LayoutPublic.cshtml]
+build_metadata.AdditionalFiles.TargetPath = UGFnZXNcU2hhcmVkXF9MYXlvdXRQdWJsaWMuY3NodG1s
+build_metadata.AdditionalFiles.CssScope = 
+
+[C:/Users/quang/Desktop/Cath/CathSpeak.Web/CathSpeak.Web/Pages/Shared/_ValidationScriptsPartial.cshtml]
+build_metadata.AdditionalFiles.TargetPath = UGFnZXNcU2hhcmVkXF9WYWxpZGF0aW9uU2NyaXB0c1BhcnRpYWwuY3NodG1s
+build_metadata.AdditionalFiles.CssScope = 
+
+[C:/Users/quang/Desktop/Cath/CathSpeak.Web/CathSpeak.Web/Pages/Terms.cshtml]
+build_metadata.AdditionalFiles.TargetPath = UGFnZXNcVGVybXMuY3NodG1s
+build_metadata.AdditionalFiles.CssScope = 
+
+[C:/Users/quang/Desktop/Cath/CathSpeak.Web/CathSpeak.Web/Pages/VideoChat/Index.cshtml]
+build_metadata.AdditionalFiles.TargetPath = UGFnZXNcVmlkZW9DaGF0XEluZGV4LmNzaHRtbA==
+build_metadata.AdditionalFiles.CssScope = 
+
+[C:/Users/quang/Desktop/Cath/CathSpeak.Web/CathSpeak.Web/Pages/VideoChat/Room.cshtml]
+build_metadata.AdditionalFiles.TargetPath = UGFnZXNcVmlkZW9DaGF0XFJvb20uY3NodG1s
+build_metadata.AdditionalFiles.CssScope = 
+
+[C:/Users/quang/Desktop/Cath/CathSpeak.Web/CathSpeak.Web/Pages/VideoChat/Session.cshtml]
+build_metadata.AdditionalFiles.TargetPath = UGFnZXNcVmlkZW9DaGF0XFNlc3Npb24uY3NodG1s
+build_metadata.AdditionalFiles.CssScope = 
+
+[C:/Users/quang/Desktop/Cath/CathSpeak.Web/CathSpeak.Web/Pages/VideoChat/StartOneOnOne.cshtml]
+build_metadata.AdditionalFiles.TargetPath = UGFnZXNcVmlkZW9DaGF0XFN0YXJ0T25lT25PbmUuY3NodG1s
+build_metadata.AdditionalFiles.CssScope = 
+
+[C:/Users/quang/Desktop/Cath/CathSpeak.Web/CathSpeak.Web/Pages/_ViewImports.cshtml]
+build_metadata.AdditionalFiles.TargetPath = UGFnZXNcX1ZpZXdJbXBvcnRzLmNzaHRtbA==
+build_metadata.AdditionalFiles.CssScope = 
+
+[C:/Users/quang/Desktop/Cath/CathSpeak.Web/CathSpeak.Web/Pages/_ViewStart.cshtml]
+build_metadata.AdditionalFiles.TargetPath = UGFnZXNcX1ZpZXdTdGFydC5jc2h0bWw=
+build_metadata.AdditionalFiles.CssScope = 

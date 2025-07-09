@@ -1,5 +1,4 @@
 using CathSpeak.Web.Hubs;
-using CathSpeak.Web.Models;
 using CathSpeak.Web.Models; // Added namespace for IceServerProvider  
 using CathSpeak.Web.Services;
 using System.Net;

@@ -7,16 +7,18 @@
 <div class="dashboard-main">
     <!-- Sidebar navigation - visible on desktop -->
     <div class="dashboard-sidebar">
+        <!-- User profile card -->
         <div class="user-profile">
             <div class="user-avatar">
-                <img src="/images/default-avatar.png" alt="@User.Identity?.Name" />
+                <img src="/img/default-avatar.png" alt="@User.Identity?.Name" />
             </div>
             <div class="user-info">
                 <span class="user-name">@User.Identity?.Name</span>
                 <span class="user-level">HSK3</span>
             </div>
         </div>
-        
+
+        <!-- Room section -->
         <div class="sidebar-section">
             <h3>ROOM</h3>
             <a href="/VideoChat/OneOnOne" class="sidebar-btn">
@@ -25,7 +27,7 @@
             <a href="/VideoChat/Room" class="sidebar-btn">
                 CREATE ROOM
             </a>
-            
+
             <div class="toggle-container">
                 <label class="toggle-switch">
                     <input type="checkbox" checked>
@@ -34,7 +36,8 @@
                 <span class="toggle-label">Enable to expand your connection with international friends.</span>
             </div>
         </div>
-        
+
+        <!-- Bottom navigation -->
         <div class="sidebar-bottom">
             <a href="/Settings" class="bottom-link">
                 <i class="fas fa-cog"></i> Setting
@@ -49,18 +52,15 @@
     <div class="dashboard-content">
         <!-- Top navigation bar -->
         <div class="dashboard-topbar">
-            <div class="logo-container">
-                <img src="/images/logo-white.svg" alt="CathSpeak Logo" class="dashboard-logo" />
-                <span>Cath</span>
-            </div>
             
+
             <div class="search-container">
                 <input type="text" placeholder="Searching..." class="search-input" />
                 <button class="search-button">
                     <i class="fas fa-search"></i>
                 </button>
             </div>
-            
+
             <div class="notification-container">
                 <button class="notification-button">
                     <i class="fas fa-bell"></i>
@@ -71,7 +71,8 @@
         <!-- Banner section -->
         <div class="banner-section">
             <div class="banner-content">
-                <h2>Video Chat Center</h2>
+                <h2>CÀI NÀY ĐỂ BANNER QUẢNG CÁO</h2>
+                <button class="event-button">FIRST DEBATE OF EVENT</button>
             </div>
             <div class="banner-indicators">
                 <span class="indicator active"></span>
@@ -79,135 +80,295 @@
             </div>
         </div>
 
+        <!-- Video Chat Center title -->
+        <div class="section-title">
+            <h2>Video Chat Center</h2>
+        </div>
+
         <!-- Room grid -->
         <div class="room-grid-container">
-            <h2>Available Rooms</h2>
-            
             <div class="room-grid">
-                @if (Model.Rooms.Any())
-                {
-                    @foreach (var room in Model.Rooms)
-                    {
-                        <div class="room-card">
-                            <div class="room-header">
-                                <h3>@room.Name</h3>
-                                <button class="room-options">
-                                    <i class="fas fa-ellipsis-h"></i>
-                                </button>
-                            </div>
-                            <div class="room-content">
-                                <div class="room-status active"></div>
-                                <div class="room-avatar">
-                                    <img src="/img/hsk4.png" alt="Room Owner" />
-                                    <div class="room-avatar-label">SOMEBODY</div>
-                                </div>
-                            </div>
-                            <div class="room-footer">
-                                <div class="room-capacity">2/5</div>
-                                <div class="room-time">18:30 - 19:30</div>
-                            </div>
-                        </div>
-                    }
-                }
-                
-                <!-- Sample rooms to fill grid if not enough actual rooms -->
-                @if (!Model.Rooms.Any() || Model.Rooms.Count < 4)
-                {
-                    <div class="room-card">
-                        <div class="room-header">
-                            <h3>History</h3>
-                            <button class="room-options">
-                                <i class="fas fa-ellipsis-h"></i>
-                            </button>
-                        </div>
-                        <div class="room-content">
-                            <div class="room-status active"></div>
-                            <div class="room-avatar">
-                                <img src="/images/default-avatar.png" alt="Room Owner" />
-                                <div class="room-avatar-label">SOMEBODY</div>
-                            </div>
-                        </div>
-                        <div class="room-footer">
-                            <div class="room-capacity">2/5</div>
-                            <div class="room-time">18:30 - 19:30</div>
+                <!-- First row -->
+                <div class="room-card">
+                    <div class="room-header">
+                        <h3>History</h3>
+                        <button class="room-options">
+                            <i class="fas fa-ellipsis-v"></i>
+                        </button>
+                    </div>
+                    <div class="room-content green-status">
+                        <div class="room-avatar">
+                            <img src="/img/avatar-history.png" alt="Room Avatar" />
                         </div>
                     </div>
-                    
-                    <div class="room-card">
-                        <div class="room-header">
-                            <h3>HSK1</h3>
-                            <button class="room-options">
-                                <i class="fas fa-ellipsis-h"></i>
-                            </button>
-                        </div>
-                        <div class="room-content">
-                            <div class="room-status active"></div>
-                            <div class="room-avatar">
-                                <img src="/images/default-avatar.png" alt="Room Owner" />
-                                <div class="room-avatar-label">SOMEBODY</div>
-                            </div>
-                        </div>
-                        <div class="room-footer">
-                            <div class="room-capacity">2/5</div>
-                            <div class="room-time">18:30 - 19:30</div>
+                    <div class="room-footer">
+                        <div class="room-capacity">2/5</div>
+                        <div class="room-time">18:30 - 19:30</div>
+                    </div>
+                </div>
+
+                <div class="room-card">
+                    <div class="room-header">
+                        <h3>ABC12345</h3>
+                        <button class="room-options">
+                            <i class="fas fa-ellipsis-v"></i>
+                        </button>
+                    </div>
+                    <div class="room-content red-status">
+                        <div class="room-avatar">
+                            <img src="/img/default-avatar.png" alt="Room Avatar" />
+                            <div class="room-avatar-label">SOMEBODY</div>
                         </div>
                     </div>
-                }
-            </div>
-            
-            <div class="room-total">Total rooms: @(Model.Rooms.Count > 0 ? Model.Rooms.Count : 200)</div>
-        </div>
+                    <div class="room-footer">
+                        <div class="room-capacity">2/5</div>
+                        <div class="room-time">18:30 - 19:30</div>
+                    </div>
+                </div>
 
-        <!-- Friends section -->
-        <div class="section-container">
-            <h2>Friends</h2>
-            <div class="friends-grid">
-                @if (Model.Friends.Any())
-                {
-                    @foreach (var friend in Model.Friends.Take(6))
-                    {
-                        <div class="friend-card">
-                            <img src="@(friend.AvatarImageUrl ?? "/images/default-avatar.png")" alt="@friend.Username" class="friend-avatar" />
-                            <span class="friend-name">@friend.Username</span>
+                <div class="room-card">
+                    <div class="room-header">
+                        <h3>HSK1</h3>
+                        <button class="room-options">
+                            <i class="fas fa-ellipsis-v"></i>
+                        </button>
+                    </div>
+                    <div class="room-content green-status">
+                        <div class="room-avatar">
+                            <img src="/img/avatar-hsk1.png" alt="Room Avatar" />
+                            <div class="room-avatar-label">SOMEBODY</div>
                         </div>
-                    }
-                }
-                else
-                {
-                    <p class="empty-state">No friends yet. <a href="/Friends/Search">Find friends</a></p>
-                }
-            </div>
-            @if (Model.Friends.Count > 6)
-            {
-                <a href="/Friends" class="view-all">View all friends</a>
-            }
-        </div>
+                    </div>
+                    <div class="room-footer">
+                        <div class="room-capacity">2/5</div>
+                        <div class="room-time">18:30 - 19:30</div>
+                    </div>
+                </div>
 
-        <!-- Recent conversations -->
-        <div class="section-container">
-            <h2>Recent Conversations</h2>
-            <div class="conversations-list">
-                @if (Model.Conversations.Any())
-                {
-                    @foreach (var conversation in Model.Conversations.Take(5))
-                    {
-                        <div class="conversation-card">
-                            <img src="@(conversation.Friend.AvatarImageUrl ?? "/images/default-avatar.png")" alt="@conversation.Friend.Username" class="conversation-avatar" />
-                            <div class="conversation-info">
-                                <span class="conversation-name">@conversation.Friend.Username</span>
-                                <span class="conversation-message">@conversation.LastMessage</span>
-                            </div>
-                            <a href="/Chat/Conversation/@conversation.ConversationId" class="conversation-action">
-                                <i class="fas fa-chevron-right"></i>
-                            </a>
+                <div class="room-card">
+                    <div class="room-header">
+                        <h3>Math - 3</h3>
+                        <button class="room-options">
+                            <i class="fas fa-ellipsis-v"></i>
+                        </button>
+                    </div>
+                    <div class="room-content">
+                        <div class="room-avatar">
+                            <img src="/img/avatar-math.png" alt="Room Avatar" />
                         </div>
-                    }
-                }
-                else
-                {
-                    <p class="empty-state">No conversations yet. Start chatting with friends!</p>
-                }
+                    </div>
+                    <div class="room-footer">
+                        <div class="room-capacity">2/5</div>
+                        <div class="room-time">18:30 - 19:30</div>
+                    </div>
+                </div>
+
+                <div class="room-card">
+                    <div class="room-header">
+                        <h3>Chess, History</h3>
+                        <button class="room-options">
+                            <i class="fas fa-ellipsis-v"></i>
+                        </button>
+                    </div>
+                    <div class="room-content green-status">
+                        <div class="room-avatar">
+                            <img src="/img/avatar-chess.png" alt="Room Avatar" />
+                        </div>
+                    </div>
+                    <div class="room-footer">
+                        <div class="room-capacity">2/5</div>
+                        <div class="room-time">18:30 - 19:30</div>
+                    </div>
+                </div>
+
+                <!-- Second row -->
+                <div class="room-card">
+                    <div class="room-header">
+                        <h3>Animal-10</h3>
+                        <button class="room-options">
+                            <i class="fas fa-ellipsis-v"></i>
+                        </button>
+                    </div>
+                    <div class="room-content green-status">
+                        <div class="room-avatar">
+                            <img src="/img/avatar-animal.png" alt="Room Avatar" />
+                        </div>
+                    </div>
+                    <div class="room-footer">
+                        <div class="room-capacity">2/5</div>
+                        <div class="room-time">18:30 - 19:30</div>
+                    </div>
+                </div>
+
+                <div class="room-card">
+                    <div class="room-header">
+                        <h3>Travel, Social</h3>
+                        <button class="room-options">
+                            <i class="fas fa-ellipsis-v"></i>
+                        </button>
+                    </div>
+                    <div class="room-content">
+                        <div class="room-avatar">
+                            <img src="/img/avatar-travel.png" alt="Room Avatar" />
+                        </div>
+                    </div>
+                    <div class="room-footer">
+                        <div class="room-capacity">2/5</div>
+                        <div class="room-time">18:30 - 19:30</div>
+                    </div>
+                </div>
+
+                <div class="room-card">
+                    <div class="room-header">
+                        <h3>DEF98766</h3>
+                        <button class="room-options">
+                            <i class="fas fa-ellipsis-v"></i>
+                        </button>
+                    </div>
+                    <div class="room-content">
+                        <div class="room-avatar">
+                            <img src="/img/default-avatar.png" alt="Room Avatar" />
+                            <div class="room-avatar-label">SOMEBODY</div>
+                        </div>
+                    </div>
+                    <div class="room-footer">
+                        <div class="room-capacity">2/5</div>
+                        <div class="room-time">18:30 - 19:30</div>
+                    </div>
+                </div>
+
+                <div class="room-card">
+                    <div class="room-header">
+                        <h3>HSK6 - 2</h3>
+                        <button class="room-options">
+                            <i class="fas fa-ellipsis-v"></i>
+                        </button>
+                    </div>
+                    <div class="room-content">
+                        <div class="room-avatar">
+                            <img src="/img/avatar-hsk6.png" alt="Room Avatar" />
+                            <div class="room-avatar-label">SOMEBODY</div>
+                        </div>
+                    </div>
+                    <div class="room-footer">
+                        <div class="room-capacity">2/5</div>
+                        <div class="room-time">18:30 - 19:30</div>
+                    </div>
+                </div>
+
+                <div class="room-card">
+                    <div class="room-header">
+                        <h3>Math, Book - 50</h3>
+                        <button class="room-options">
+                            <i class="fas fa-ellipsis-v"></i>
+                        </button>
+                    </div>
+                    <div class="room-content">
+                        <div class="room-avatar">
+                            <img src="/img/avatar-book.png" alt="Room Avatar" />
+                        </div>
+                    </div>
+                    <div class="room-footer">
+                        <div class="room-capacity">2/5</div>
+                        <div class="room-time">18:30 - 19:30</div>
+                    </div>
+                </div>
+
+                <!-- Third row -->
+                <div class="room-card">
+                    <div class="room-header">
+                        <h3>A</h3>
+                        <button class="room-options">
+                            <i class="fas fa-ellipsis-v"></i>
+                        </button>
+                    </div>
+                    <div class="room-content green-status">
+                        <div class="room-avatar">
+                            <img src="/img/avatar-a.png" alt="Room Avatar" />
+                            <div class="room-avatar-label">SOMEBODY</div>
+                        </div>
+                    </div>
+                    <div class="room-footer">
+                        <div class="room-capacity">2/5</div>
+                        <div class="room-time">18:30 - 19:30</div>
+                    </div>
+                </div>
+
+                <div class="room-card">
+                    <div class="room-header">
+                        <h3>Family, Sport</h3>
+                        <button class="room-options">
+                            <i class="fas fa-ellipsis-v"></i>
+                        </button>
+                    </div>
+                    <div class="room-content">
+                        <div class="room-avatar">
+                            <img src="/img/avatar-family.png" alt="Room Avatar" />
+                        </div>
+                    </div>
+                    <div class="room-footer">
+                        <div class="room-capacity">2/5</div>
+                        <div class="room-time">18:30 - 19:30</div>
+                    </div>
+                </div>
+
+                <div class="room-card">
+                    <div class="room-header">
+                        <h3>Food -1</h3>
+                        <button class="room-options">
+                            <i class="fas fa-ellipsis-v"></i>
+                        </button>
+                    </div>
+                    <div class="room-content green-status">
+                        <div class="room-avatar">
+                            <img src="/img/avatar-food.png" alt="Room Avatar" />
+                        </div>
+                    </div>
+                    <div class="room-footer">
+                        <div class="room-capacity">2/5</div>
+                        <div class="room-time">18:30 - 19:30</div>
+                    </div>
+                </div>
+
+                <div class="room-card">
+                    <div class="room-header">
+                        <h3>Movie</h3>
+                        <button class="room-options">
+                            <i class="fas fa-ellipsis-v"></i>
+                        </button>
+                    </div>
+                    <div class="room-content">
+                        <div class="room-avatar">
+                            <img src="/img/avatar-movie.png" alt="Room Avatar" />
+                            <div class="room-avatar-label">SOMEBODY</div>
+                        </div>
+                    </div>
+                    <div class="room-footer">
+                        <div class="room-capacity">2/5</div>
+                        <div class="room-time">18:30 - 19:30</div>
+                    </div>
+                </div>
+
+                <div class="room-card">
+                    <div class="room-header">
+                        <h3>Art, History</h3>
+                        <button class="room-options">
+                            <i class="fas fa-ellipsis-v"></i>
+                        </button>
+                    </div>
+                    <div class="room-content green-status">
+                        <div class="room-avatar">
+                            <img src="/img/avatar-art.png" alt="Room Avatar" />
+                        </div>
+                    </div>
+                    <div class="room-footer">
+                        <div class="room-capacity">2/5</div>
+                        <div class="room-time">18:30 - 19:30</div>
+                    </div>
+                </div>
             </div>
+
+            <div class="room-total">Total room: 200</div>
         </div>
     </div>
 </div>
@@ -216,8 +377,8 @@
     :root {
         --primary: #A60E13;
         --primary-dark: #8B0000;
-        --primary-light: #D41E24;
-        --accent: #FFD700;
+        --background-red: #A60E13;
+        --accent-yellow: #FFA500;
         --text-light: #FFFFFF;
         --text-dark: #333333;
         --gray-light: #E1E5E9;
@@ -232,7 +393,7 @@
         margin: 0;
         padding: 0;
         font-family: 'Poppins', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, sans-serif;
-        background-color: var(--primary);
+        background-color: var(--background-red);
         color: var(--text-light);
     }
 
@@ -257,9 +418,9 @@
         display: flex;
         align-items: center;
         padding: 15px;
-        border: 1px solid var(--gray-light);
         border-radius: 12px;
-        margin-bottom: 20px;
+        margin-bottom: 30px;
+        background-color: white;
     }
 
     .user-avatar img {
@@ -290,12 +451,12 @@
         margin-bottom: 30px;
     }
 
-    .sidebar-section h3 {
-        color: #770000;
-        font-weight: 700;
-        margin-bottom: 15px;
-        font-size: 18px;
-    }
+        .sidebar-section h3 {
+            color: #A60E13;
+            font-weight: 700;
+            margin-bottom: 15px;
+            font-size: 18px;
+        }
 
     .sidebar-btn {
         display: block;
@@ -310,14 +471,14 @@
         transition: all 0.3s;
     }
 
-    .sidebar-btn:hover {
-        background-color: #FF8C00;
-    }
+        .sidebar-btn:hover {
+            background-color: #FF8C00;
+        }
 
     .toggle-container {
         display: flex;
         flex-direction: column;
-        margin-top: 15px;
+        margin-top: 20px;
     }
 
     .toggle-switch {
@@ -328,11 +489,11 @@
         margin-bottom: 10px;
     }
 
-    .toggle-switch input {
-        opacity: 0;
-        width: 0;
-        height: 0;
-    }
+        .toggle-switch input {
+            opacity: 0;
+            width: 0;
+            height: 0;
+        }
 
     .toggle-slider {
         position: absolute;
@@ -346,29 +507,29 @@
         border-radius: 24px;
     }
 
-    .toggle-slider:before {
-        position: absolute;
-        content: "";
-        height: 16px;
-        width: 16px;
-        left: 4px;
-        bottom: 4px;
-        background-color: white;
-        transition: .4s;
-        border-radius: 50%;
-    }
+        .toggle-slider:before {
+            position: absolute;
+            content: "";
+            height: 16px;
+            width: 16px;
+            left: 4px;
+            bottom: 4px;
+            background-color: white;
+            transition: .4s;
+            border-radius: 50%;
+        }
 
     input:checked + .toggle-slider {
         background-color: var(--success);
     }
 
-    input:checked + .toggle-slider:before {
-        transform: translateX(26px);
-    }
+        input:checked + .toggle-slider:before {
+            transform: translateX(26px);
+        }
 
     .toggle-label {
         font-size: 12px;
-        color: var(--text-dark);
+        color: #FF0000;
         line-height: 1.4;
     }
 
@@ -386,10 +547,10 @@
         font-weight: 500;
     }
 
-    .bottom-link i {
-        margin-right: 10px;
-        width: 20px;
-    }
+        .bottom-link i {
+            margin-right: 10px;
+            width: 20px;
+        }
 
     /* Main content area */
     .dashboard-content {
@@ -397,6 +558,7 @@
         display: flex;
         flex-direction: column;
         overflow-x: hidden;
+        background-color: var(--background-red);
     }
 
     /* Top bar */
@@ -420,6 +582,7 @@
     .logo-container span {
         font-size: 24px;
         font-weight: 600;
+        color: var(--text-light);
     }
 
     .search-container {
@@ -460,7 +623,7 @@
         border-radius: 10px;
         overflow: hidden;
         height: 150px;
-        background-image: url('/images/banner-bg.jpg');
+        background-color: #555;
         background-size: cover;
         background-position: center;
     }
@@ -474,14 +637,25 @@
         display: flex;
         flex-direction: column;
         justify-content: center;
+        align-items: center;
         padding: 0 30px;
-        background: rgba(0, 0, 0, 0.4);
     }
 
-    .banner-content h2 {
-        margin: 0;
-        font-size: 24px;
-        font-weight: 600;
+        .banner-content h2 {
+            margin: 0;
+            margin-bottom: 20px;
+            font-size: 24px;
+            font-weight: 600;
+        }
+
+    .event-button {
+        background-color: var(--primary);
+        color: white;
+        border: none;
+        padding: 8px 16px;
+        border-radius: 4px;
+        cursor: pointer;
+        font-weight: 500;
     }
 
     .banner-indicators {
@@ -501,25 +675,31 @@
         background-color: rgba(255, 255, 255, 0.5);
     }
 
-    .indicator.active {
-        background-color: white;
+        .indicator.active {
+            background-color: white;
+        }
+
+    /* Section title */
+    .section-title {
+        padding: 10px 30px;
+        margin-bottom: 10px;
     }
+
+        .section-title h2 {
+            margin: 0;
+            font-size: 22px;
+            font-weight: 500;
+        }
 
     /* Room grid */
     .room-grid-container {
-        padding: 20px 30px;
-    }
-
-    .room-grid-container h2 {
-        margin-bottom: 20px;
-        font-size: 22px;
-        font-weight: 500;
+        padding: 0 30px 20px;
     }
 
     .room-grid {
         display: grid;
-        grid-template-columns: repeat(auto-fill, minmax(250px, 1fr));
-        gap: 20px;
+        grid-template-columns: repeat(5, 1fr);
+        gap: 15px;
         margin-bottom: 15px;
     }
 
@@ -528,76 +708,86 @@
         border-radius: 10px;
         overflow: hidden;
         color: var(--text-dark);
+        box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
     }
 
     .room-header {
         display: flex;
         justify-content: space-between;
         align-items: center;
-        padding: 12px 15px;
+        padding: 10px;
         border-bottom: 1px solid var(--gray-light);
     }
 
-    .room-header h3 {
-        margin: 0;
-        font-size: 16px;
-        font-weight: 500;
-    }
+        .room-header h3 {
+            margin: 0;
+            font-size: 14px;
+            font-weight: 500;
+            white-space: nowrap;
+            overflow: hidden;
+            text-overflow: ellipsis;
+        }
 
     .room-options {
         background: none;
         border: none;
-        font-size: 16px;
+        font-size: 14px;
         cursor: pointer;
         color: var(--gray-dark);
+        padding: 0;
     }
 
     .room-content {
         position: relative;
-        height: 120px;
+        height: 100px;
         display: flex;
         justify-content: center;
         align-items: center;
-        padding: 15px;
+        padding: 10px;
     }
 
-    .room-status {
-        position: absolute;
-        top: 10px;
-        left: 10px;
-        width: 12px;
-        height: 12px;
-        border-radius: 50%;
-        background-color: var(--gray-medium);
-    }
+        .room-content::before {
+            content: "";
+            position: absolute;
+            top: 10px;
+            left: 10px;
+            width: 10px;
+            height: 10px;
+            border-radius: 50%;
+            background-color: #ccc;
+        }
 
-    .room-status.active {
-        background-color: var(--success);
-    }
+        .room-content.green-status::before {
+            background-color: var(--success);
+        }
+
+        .room-content.red-status::before {
+            background-color: var(--danger);
+        }
 
     .room-avatar {
         text-align: center;
     }
 
-    .room-avatar img {
-        width: 60px;
-        height: 60px;
-        border-radius: 50%;
-        object-fit: cover;
-    }
+        .room-avatar img {
+            width: 50px;
+            height: 50px;
+            object-fit: cover;
+        }
 
     .room-avatar-label {
-        margin-top: 8px;
-        font-size: 12px;
+        margin-top: 5px;
+        font-size: 11px;
         color: var(--gray-dark);
+        text-transform: uppercase;
     }
 
     .room-footer {
         display: flex;
         justify-content: space-between;
-        padding: 10px 15px;
+        padding: 8px 10px;
         background-color: #f5f5f5;
-        font-size: 14px;
+        font-size: 12px;
     }
 
     .room-capacity {
@@ -610,192 +800,69 @@
 
     .room-total {
         font-size: 14px;
-        color: var(--gray-medium);
+        color: #FFA500;
         text-align: right;
-    }
-
-    /* Friends section */
-    .section-container {
-        padding: 20px 30px;
-    }
-
-    .section-container h2 {
-        margin-bottom: 20px;
-        font-size: 22px;
-        font-weight: 500;
-    }
-
-    .friends-grid {
-        display: grid;
-        grid-template-columns: repeat(auto-fill, minmax(100px, 1fr));
-        gap: 20px;
-    }
-
-    .friend-card {
-        text-align: center;
-    }
-
-    .friend-avatar {
-        width: 60px;
-        height: 60px;
-        border-radius: 50%;
-        object-fit: cover;
-        margin-bottom: 10px;
-    }
-
-    .friend-name {
-        display: block;
-        font-size: 14px;
-        white-space: nowrap;
-        overflow: hidden;
-        text-overflow: ellipsis;
-    }
-
-    /* Conversation styles */
-    .conversations-list {
-        display: flex;
-        flex-direction: column;
-        gap: 15px;
-    }
-
-    .conversation-card {
-        display: flex;
-        align-items: center;
-        background-color: rgba(255, 255, 255, 0.1);
-        border-radius: 10px;
-        padding: 15px;
-    }
-
-    .conversation-avatar {
-        width: 50px;
-        height: 50px;
-        border-radius: 50%;
-        object-fit: cover;
-    }
-
-    .conversation-info {
-        flex: 1;
-        margin-left: 15px;
-    }
-
-    .conversation-name {
-        display: block;
-        font-weight: 500;
-        margin-bottom: 5px;
-    }
-
-    .conversation-message {
-        display: block;
-        font-size: 14px;
-        opacity: 0.8;
-        white-space: nowrap;
-        overflow: hidden;
-        text-overflow: ellipsis;
-        max-width: 250px;
-    }
-
-    .conversation-action {
-        color: white;
-        padding: 8px;
-    }
-
-    /* Utilities */
-    .view-all {
-        display: block;
-        text-align: center;
-        margin-top: 20px;
-        color: var(--accent);
-        text-decoration: none;
-    }
-
-    .empty-state {
-        text-align: center;
-        padding: 20px;
-        background-color: rgba(255, 255, 255, 0.1);
-        border-radius: 10px;
-        color: rgba(255, 255, 255, 0.8);
-    }
-
-    .empty-state a {
-        color: var(--accent);
-        text-decoration: none;
+        margin-top: 10px;
     }
 
     /* Responsive styles */
+    @@media (max-width: 1200px) {
+        .room-grid
+
+    {
+        grid-template-columns: repeat(4, 1fr);
+    }
+
+    }
+
     @@media (max-width: 992px) {
-        .dashboard-main {
-            flex-direction: column;
-        }
-        
-        .dashboard-sidebar {
-            width: 100%;
-            order: 2;
-        }
-        
-        .dashboard-content {
-            order: 1;
-        }
-        
-        .room-grid {
-            grid-template-columns: repeat(auto-fill, minmax(200px, 1fr));
-        }
+        .room-grid
+
+    {
+        grid-template-columns: repeat(3, 1fr);
+    }
+
     }
 
     @@media (max-width: 768px) {
-        .dashboard-topbar {
-            flex-wrap: wrap;
-        }
-        
-        .search-container {
-            order: 3;
-            width: 100%;
-            max-width: none;
-            margin: 15px 0 0;
-        }
-        
-        .room-grid {
-            grid-template-columns: repeat(auto-fill, minmax(180px, 1fr));
-        }
-        
-        .friends-grid {
-            grid-template-columns: repeat(auto-fill, minmax(80px, 1fr));
-        }
+        .dashboard-main
+
+    {
+        flex-direction: column;
+    }
+
+    .dashboard-sidebar {
+        width: 100%;
+        order: 2;
+    }
+
+    .dashboard-content {
+        order: 1;
+    }
+
+    .room-grid {
+        grid-template-columns: repeat(2, 1fr);
+    }
+
+    .search-container {
+        max-width: none;
+        margin: 10px 0;
+    }
+
     }
 
     @@media (max-width: 576px) {
-        .room-grid {
-            grid-template-columns: 1fr 1fr;
-        }
-        
-        .room-content {
-            height: 100px;
-        }
+        .room-grid
+
+    {
+        grid-template-columns: 1fr;
+    }
+
     }
 </style>
 
 <script>
     document.addEventListener('DOMContentLoaded', function() {
-        // Toggle sidebar on mobile
-        const toggleSidebar = document.createElement('button');
-        toggleSidebar.className = 'toggle-sidebar';
-        toggleSidebar.innerHTML = '<i class="fas fa-bars"></i>';
-        
-        const sidebar = document.querySelector('.dashboard-sidebar');
-        const topbar = document.querySelector('.dashboard-topbar');
-        
-        if (window.innerWidth < 992) {
-            sidebar.style.display = 'none';
-            topbar.prepend(toggleSidebar);
-            
-            toggleSidebar.addEventListener('click', function() {
-                if (sidebar.style.display === 'none') {
-                    sidebar.style.display = 'flex';
-                } else {
-                    sidebar.style.display = 'none';
-                }
-            });
-        }
-        
         // Handle room card clicks
         const roomCards = document.querySelectorAll('.room-card');
         roomCards.forEach(card => {
@@ -804,5 +871,26 @@
                 window.location.href = `/VideoChat/Room?room=${roomTitle}`;
             });
         });
+
+        // Mobile menu toggle
+        const toggleButton = document.createElement('button');
+        toggleButton.className = 'mobile-menu-toggle';
+        toggleButton.innerHTML = '<i class="fas fa-bars"></i>';
+
+        const sidebar = document.querySelector('.dashboard-sidebar');
+        const topbar = document.querySelector('.dashboard-topbar');
+
+        if (window.innerWidth < 768) {
+            sidebar.style.display = 'none';
+            topbar.prepend(toggleButton);
+
+            toggleButton.addEventListener('click', function() {
+                if (sidebar.style.display === 'none') {
+                    sidebar.style.display = 'flex';
+                } else {
+                    sidebar.style.display = 'none';
+                }
+            });
+        }
     });
 </script>
