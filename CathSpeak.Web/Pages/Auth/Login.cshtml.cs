@@ -17,6 +17,7 @@ namespace CathSpeak.Web.Pages.Auth
         public LoginViewModel LoginData { get; set; } = new();
 
         public string? ErrorMessage { get; set; }
+        public string? SuccessMessage { get; set; }
 
         public LoginModel(IApiService apiService, ILogger<LoginModel> logger)
         {
@@ -27,6 +28,7 @@ namespace CathSpeak.Web.Pages.Auth
         public void OnGet()
         {
             ErrorMessage = TempData["ErrorMessage"] as string;
+            SuccessMessage = TempData["SuccessMessage"] as string;
         }
 
         public async Task<IActionResult> OnPostAsync()

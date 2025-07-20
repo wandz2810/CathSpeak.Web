@@ -19,6 +19,13 @@
             </div>
         }
 
+        @if (!string.IsNullOrEmpty(Model.SuccessMessage))
+        {
+            <div class="alert alert-success">
+                @Model.SuccessMessage
+            </div>
+        }
+
         <form method="post" class="auth-form">
             <div class="form-group">
                 <label asp-for="LoginData.Username">Username</label>
@@ -52,7 +59,7 @@
         display: flex;
         align-items: center;
         justify-content: center;
-        background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+        background: linear-gradient(135deg, #A60E13 90%, #910B09 10%);
     }
 
     .auth-card {
@@ -147,6 +154,12 @@
         margin-bottom: 1rem;
         border: 1px solid transparent;
         border-radius: 5px;
+    }
+
+    .alert-success {
+        color: #155724;
+        background-color: #d4edda;
+        border-color: #c3e6cb;
     }
 
     .alert-danger {

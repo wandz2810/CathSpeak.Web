@@ -14,7 +14,7 @@ using System.Reflection;
 [assembly: System.Reflection.AssemblyCompanyAttribute("CathSpeak.Web")]
 [assembly: System.Reflection.AssemblyConfigurationAttribute("Debug")]
 [assembly: System.Reflection.AssemblyFileVersionAttribute("1.0.0.0")]
-[assembly: System.Reflection.AssemblyInformationalVersionAttribute("1.0.0+0edcd2671197c64a98e5b6fca4dcb6b24a79ddd8")]
+[assembly: System.Reflection.AssemblyInformationalVersionAttribute("1.0.0+efeea74d6c659c5c32a9460198979c1967f6d54e")]
 [assembly: System.Reflection.AssemblyProductAttribute("CathSpeak.Web")]
 [assembly: System.Reflection.AssemblyTitleAttribute("CathSpeak.Web")]
 [assembly: System.Reflection.AssemblyVersionAttribute("1.0.0.0")]

@@ -35,20 +35,23 @@ namespace CathSpeak.Web.Pages.Auth
 
             try
             {
+                // Use default avatar image instead of user input
+                RegisterData.AvatarImageUrl = "/img/default-avatar.png";
+                
                 var registerRequest = new
                 {
                     Username = RegisterData.Username,
                     Email = RegisterData.Email,
                     Password = RegisterData.Password,
                     AvatarImageUrl = RegisterData.AvatarImageUrl,
-                    Address = RegisterData.Address,
+                    Address = RegisterData.Address ?? "string",
                     DateOfBirth = RegisterData.DateOfBirth,
                     Level = RegisterData.Level ?? "Beginner"
                 };
 
-                var response = await _apiService.PostAsync<dynamic>("api/auth/register", registerRequest);
+                var response = await _apiService.PostAsync<object>("/api/auth/register", registerRequest);
 
-                if (response != null)
+                if (response is not null)
                 {
                     TempData["SuccessMessage"] = "Registration successful! Please login with your credentials.";
                     return RedirectToPage("/Auth/Login");

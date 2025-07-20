@@ -15,8 +15,8 @@
     <header>
         <nav class="navbar navbar-expand-lg navbar-dark bg-primary">
             <div class="container">
-                <a class="navbar-brand" href="/">
-                    <i class="fas fa-comments"></i>
+                <a class="navbar-brand" >
+                    <img src="/img/image35.png" alt="CathSpeak Logo" />
                     CathSpeak
                 </a>
 
@@ -94,7 +94,7 @@
         @RenderBody()
     </main>
 
-    <footer class="footer text-muted">
+    @* <footer class="footer text-muted">
         <div class="container">
             <div class="row">
                 <div class="col-md-6">
@@ -106,7 +106,7 @@
                 </div>
             </div>
         </div>
-    </footer>
+    </footer> *@
 
     <script src="~/lib/jquery/dist/jquery.min.js"></script>
     <script src="~/lib/bootstrap/dist/js/bootstrap.bundle.min.js"></script>
@@ -128,7 +128,7 @@
     }
 
     .bg-primary {
-        background: linear-gradient(135deg, #667eea 0%, #764ba2 100%) !important;
+        background: linear-gradient(135deg, #910B09 100%) !important;
     }
 
     .nav-link {
@@ -218,6 +218,12 @@
             box-shadow: 0 8px 25px rgba(0, 0, 0, 0.15);
         }
 
+    .navbar-brand img {
+        height: 40px;
+        width: auto;
+        margin-right: 10px;
+        vertical-align: middle;
+    }
     /* Form styles */
     .form-control {
         border-radius: 6px;

@@ -1,5 +1,4 @@
 using CathSpeak.Web.Hubs;
-using CathSpeak.Web.Models;
 using CathSpeak.Web.Models; // Added namespace for IceServerProvider  
 using CathSpeak.Web.Services;
 using System.Net;
@@ -13,7 +12,7 @@ builder.Services.AddRazorPages();
 // Add HttpClient for API calls  
 builder.Services.AddHttpClient("CathSpeakAPI", client =>
 {
-    client.BaseAddress = new Uri("http://192.168.1.3:7001");
+    client.BaseAddress = new Uri("https://cath-api-gxf5dvhfe5h0amb0.southeastasia-01.azurewebsites.net/");
     client.DefaultRequestHeaders.Add("Accept", "application/json");
     client.Timeout = TimeSpan.FromSeconds(30);
 });
