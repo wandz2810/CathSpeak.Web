@@ -49,7 +49,7 @@ namespace CathSpeak.Web.Pages.Auth
                     Level = RegisterData.Level ?? "Beginner"
                 };
 
-                var response = await _apiService.PostAsync<object>("api/auth/register", registerRequest);
+                var response = await _apiService.PostAsync<object>("/api/auth/register", registerRequest);
 
                 if (response is not null)
                 {
